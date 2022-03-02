@@ -90,31 +90,26 @@ public class Menu implements Initializable {
     }
 
     public void onNormalFileChoose(ActionEvent actionEvent) {
-        if(codedFileStage == null) {
+        try {
             normalFileStage = new Stage();
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open normal File");
             normalFile = fileChooser.showOpenDialog(normalFileStage);
             normalfileField.setText(normalFile.getAbsolutePath());
             //to normalText.setText(bit array)
-            normalFileStage.setOnHidden(windowEvent -> {
-                normalFileStage = null;
-            });
+        } catch (Exception ignored) {
         }
     }
 
     public void onNormalCodedChoose(ActionEvent actionEvent) {
-        if(normalFileStage == null) {
+        try {
             codedFileStage = new Stage();
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open coded File");
             codedFile = fileChooser.showOpenDialog(codedFileStage);
             codedfileField.setText(codedFile.getAbsolutePath());
             //to codedText.setText(bit array)
-            codedFileStage.setOnHidden(windowEvent -> {
-                codedFileStage = null;
-            });
+        } catch (Exception ignored) {
         }
-
     }
 }
