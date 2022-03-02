@@ -32,6 +32,12 @@ public class Menu implements Initializable {
     public RadioButton fileicon = new RadioButton();
     public RadioButton texticon = new RadioButton();
 
+    private File normalFile;
+    private File codedFile;
+
+    private Stage normalFileStage;
+    private Stage codedFileStage;
+
     public void onCode(ActionEvent actionEvent) {
     }
 
@@ -84,14 +90,31 @@ public class Menu implements Initializable {
     }
 
     public void onNormalFileChoose(ActionEvent actionEvent) {
-        Stage stage = new Stage();
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        File file = fileChooser.showOpenDialog(stage);
-        System.out.println(file.getAbsolutePath());
-        normalfileField.setText(file.getAbsolutePath());
+        if(codedFileStage == null) {
+            normalFileStage = new Stage();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open normal File");
+            normalFile = fileChooser.showOpenDialog(normalFileStage);
+            normalfileField.setText(normalFile.getAbsolutePath());
+            //to normalText.setText(bit array)
+            normalFileStage.setOnHidden(windowEvent -> {
+                normalFileStage = null;
+            });
+        }
     }
 
     public void onNormalCodedChoose(ActionEvent actionEvent) {
+        if(normalFileStage == null) {
+            codedFileStage = new Stage();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open coded File");
+            codedFile = fileChooser.showOpenDialog(codedFileStage);
+            codedfileField.setText(codedFile.getAbsolutePath());
+            //to codedText.setText(bit array)
+            codedFileStage.setOnHidden(windowEvent -> {
+                codedFileStage = null;
+            });
+        }
+
     }
 }
