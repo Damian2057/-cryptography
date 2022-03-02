@@ -11,4 +11,7 @@ module Cryptography {
 
     opens crypto.project.Model;
     exports crypto.project.Model;
+
+    opens crypto.project.GUI.MainMenu;
+    exports crypto.project.GUI.MainMenu;
 }

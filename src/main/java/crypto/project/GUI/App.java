@@ -1,15 +1,19 @@
 package crypto.project.GUI;
 
+import crypto.project.GUI.MainMenu.Menu;
 import crypto.project.Model.algorithm;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.util.Locale;
 
 
 public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        System.out.println("Dzialam");
+        Locale.setDefault(new Locale("eng","ENG"));
+        Menu menu = new Menu();
+        menu.show();
     }
 
     public static void main(String[] args) {

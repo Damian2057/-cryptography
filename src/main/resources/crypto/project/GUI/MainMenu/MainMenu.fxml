@@ -6,16 +6,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crypto.project.GUI.MainMenu.Menu">
    <children>
-      <TextArea layoutX="42.0" layoutY="280.0" prefHeight="174.0" prefWidth="178.0" />
-      <TextArea layoutX="487.0" layoutY="280.0" prefHeight="174.0" prefWidth="178.0" />
-      <Button layoutX="288.0" layoutY="289.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="124.0" text="Button" />
-      <Button layoutX="288.0" layoutY="341.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="124.0" text="Button" />
-      <TextArea layoutX="42.0" layoutY="80.0" prefHeight="39.0" prefWidth="382.0" />
-      <Button layoutX="425.0" layoutY="80.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="60.0" text="Button" />
-      <ComboBox layoutX="275.0" layoutY="173.0" prefWidth="150.0" />
+      <TextArea fx:id="normalText" layoutX="42.0" layoutY="280.0" prefHeight="174.0" prefWidth="178.0" />
+      <TextArea fx:id="codedText" layoutX="487.0" layoutY="280.0" prefHeight="174.0" prefWidth="178.0" />
+      <Button layoutX="288.0" layoutY="289.0" mnemonicParsing="false" onAction="#onCode" prefHeight="36.0" prefWidth="124.0" text="Button" />
+      <Button layoutX="288.0" layoutY="341.0" mnemonicParsing="false" onAction="#onDeCode" prefHeight="36.0" prefWidth="124.0" text="Button" />
+      <TextArea fx:id="keyText" layoutX="42.0" layoutY="80.0" prefHeight="39.0" prefWidth="382.0" />
+      <Button fx:id="onGenerate" layoutX="425.0" layoutY="80.0" mnemonicParsing="false" onAction="#onGenerate" prefHeight="39.0" prefWidth="60.0" text="Button" />
+      <ComboBox fx:id="comboBox" layoutX="275.0" layoutY="173.0" prefWidth="150.0" />
       <Text layoutX="288.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="123.99999999999977" />
       <Text layoutX="69.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="123.99999999999977" />
       <Text layoutX="514.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="123.99999999999977" />
