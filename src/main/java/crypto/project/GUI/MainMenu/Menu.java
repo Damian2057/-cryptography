@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -23,7 +24,6 @@ public class Menu implements Initializable {
     @FXML
     public TextArea normalText = new TextArea();
     public TextArea codedText = new TextArea();
-    public TextArea keyText;
     public Button onGenerate;
     public TextField normalfileField = new TextField();
     public TextField codedfileField = new TextField();
@@ -31,6 +31,13 @@ public class Menu implements Initializable {
     public Button codedFileButton = new Button();
     public RadioButton fileicon = new RadioButton();
     public RadioButton texticon = new RadioButton();
+    public TextArea keyText2;
+    public TextArea keyText3;
+    public TextArea keyText1;
+    public TextField normalfieldSave = new TextField();
+    public TextField codedfieldSave = new TextField();
+    public Button SaveButton1 = new Button();
+    public Button SaveButton2 = new Button();
 
     private File normalFile;
     private File codedFile;
@@ -39,6 +46,9 @@ public class Menu implements Initializable {
     private Stage codedFileStage;
 
     public void onCode(ActionEvent actionEvent) {
+    }
+
+    public void onDeCode(ActionEvent actionEvent) {
     }
 
     public void show() throws IOException {
@@ -53,9 +63,6 @@ public class Menu implements Initializable {
         menuStage.show();
     }
 
-    public void onDeCode(ActionEvent actionEvent) {
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         texticon.setSelected(true);
@@ -64,13 +71,36 @@ public class Menu implements Initializable {
 
         normalFileButton.setDisable(true);
         codedFileButton.setDisable(true);
+
+        SaveButton1.setDisable(true);
+        SaveButton2.setDisable(true);
+    }
+
+    private void genFirstKey() {
+        byte[] array = new byte[64]; // 32 key
+        new Random().nextBytes(array);
+        String generatedString = new String(array, StandardCharsets.UTF_8);
+        keyText1.setText(generatedString);
+    }
+
+    private void genSecondKey() {
+        byte[] array = new byte[56]; // 32 key
+        new Random().nextBytes(array);
+        String generatedString = new String(array, StandardCharsets.UTF_8);
+        keyText2.setText(generatedString);
+    }
+
+    private void genThirdKey() {
+        byte[] array = new byte[64]; // 32 key
+        new Random().nextBytes(array);
+        String generatedString = new String(array, StandardCharsets.UTF_8);
+        keyText3.setText(generatedString);
     }
 
     public void onGenerate(ActionEvent actionEvent) {
-        byte[] array = new byte[32]; // 32 key
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
-        keyText.setText(generatedString);
+        genFirstKey();
+        genSecondKey();
+        genThirdKey();
     }
 
     public void onFIleChooose(ActionEvent actionEvent) {
@@ -79,6 +109,9 @@ public class Menu implements Initializable {
 
         normalFileButton.setDisable(false);
         codedFileButton.setDisable(false);
+
+        SaveButton1.setDisable(false);
+        SaveButton2.setDisable(false);
     }
 
     public void onTextChoose(ActionEvent actionEvent) {
@@ -87,6 +120,9 @@ public class Menu implements Initializable {
 
         normalFileButton.setDisable(true);
         codedFileButton.setDisable(true);
+
+        SaveButton1.setDisable(true);
+        SaveButton2.setDisable(true);
     }
 
     public void onNormalFileChoose(ActionEvent actionEvent) {
@@ -111,5 +147,13 @@ public class Menu implements Initializable {
             //to codedText.setText(bit array)
         } catch (Exception ignored) {
         }
+    }
+
+    private DirectoryChooser directoryChooser = new DirectoryChooser();
+
+    public void onSaveFileChoose(ActionEvent actionEvent) throws IOException {
+    }
+
+    public void onSaveCodedChoose(ActionEvent actionEvent) throws IOException {
     }
 }
