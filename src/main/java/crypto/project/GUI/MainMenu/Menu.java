@@ -7,10 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -26,24 +26,21 @@ public class Menu implements Initializable {
     public TextArea codedText = new TextArea();
     public Button onGenerate;
     public TextField normalfileField = new TextField();
-    public TextField codedfileField = new TextField();
     public Button normalFileButton = new Button();
-    public Button codedFileButton = new Button();
     public RadioButton fileicon = new RadioButton();
     public RadioButton texticon = new RadioButton();
     public TextArea keyText2;
     public TextArea keyText3;
     public TextArea keyText1;
-    public TextField normalfieldSave = new TextField();
-    public TextField codedfieldSave = new TextField();
     public Button SaveButton1 = new Button();
-    public Button SaveButton2 = new Button();
+    public Text saveText = new Text();
+    public Text chooseText = new Text();
 
     private File normalFile;
-    private File codedFile;
-
     private Stage normalFileStage;
-    private Stage codedFileStage;
+
+    private File saveFile;
+    private Stage saveFileStage;
 
     public void onCode(ActionEvent actionEvent) {
     }
@@ -66,14 +63,12 @@ public class Menu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         texticon.setSelected(true);
-        normalfileField.setEditable(false);
-        codedfileField.setEditable(false);
 
-        normalFileButton.setDisable(true);
-        codedFileButton.setDisable(true);
-
-        SaveButton1.setDisable(true);
-        SaveButton2.setDisable(true);
+        normalfileField.setVisible(false);
+        normalFileButton.setVisible(false);
+        SaveButton1.setVisible(false);
+        saveText.setVisible(false);
+        chooseText.setVisible(false);
     }
 
     private void genFirstKey() {
@@ -107,22 +102,22 @@ public class Menu implements Initializable {
         fileicon.setSelected(true);
         texticon.setSelected(false);
 
-        normalFileButton.setDisable(false);
-        codedFileButton.setDisable(false);
-
-        SaveButton1.setDisable(false);
-        SaveButton2.setDisable(false);
+        normalfileField.setVisible(true);
+        normalFileButton.setVisible(true);
+        SaveButton1.setVisible(true);
+        saveText.setVisible(true);
+        chooseText.setVisible(true);
     }
 
     public void onTextChoose(ActionEvent actionEvent) {
         texticon.setSelected(true);
         fileicon.setSelected(false);
 
-        normalFileButton.setDisable(true);
-        codedFileButton.setDisable(true);
-
-        SaveButton1.setDisable(true);
-        SaveButton2.setDisable(true);
+        normalfileField.setVisible(false);
+        normalFileButton.setVisible(false);
+        SaveButton1.setVisible(false);
+        saveText.setVisible(false);
+        chooseText.setVisible(false);
     }
 
     public void onNormalFileChoose(ActionEvent actionEvent) {
@@ -137,23 +132,19 @@ public class Menu implements Initializable {
         }
     }
 
-    public void onNormalCodedChoose(ActionEvent actionEvent) {
-        try {
-            codedFileStage = new Stage();
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open coded File");
-            codedFile = fileChooser.showOpenDialog(codedFileStage);
-            codedfileField.setText(codedFile.getAbsolutePath());
-            //to codedText.setText(bit array)
-        } catch (Exception ignored) {
-        }
-    }
-
-    private DirectoryChooser directoryChooser = new DirectoryChooser();
-
     public void onSaveFileChoose(ActionEvent actionEvent) throws IOException {
-    }
+        try {
+            saveFileStage = new Stage();
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Save file");
+            String directory = "";
+            directory = directoryChooser.showDialog(saveFileStage).toString();
+            saveFile = new File(directory+"\\"+"codedfile");
+            saveFile.createNewFile();
+        } catch (Exception ignored) {
 
-    public void onSaveCodedChoose(ActionEvent actionEvent) throws IOException {
+        }
+
+
     }
 }
