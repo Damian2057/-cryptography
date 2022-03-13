@@ -1,7 +1,6 @@
 package crypto.project.GUI;
 
 import crypto.project.GUI.MainMenu.Menu;
-import crypto.project.Model.algorithm;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
