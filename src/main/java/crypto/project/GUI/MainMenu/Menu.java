@@ -11,10 +11,14 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.File;
-import java.io.IOException;
+
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -35,6 +39,7 @@ public class Menu implements Initializable {
     public Button SaveButton1 = new Button();
     public Text saveText = new Text();
     public Text chooseText = new Text();
+    public TextField fileExtenson = new TextField();
 
     private File normalFile;
     private Stage normalFileStage;
@@ -62,6 +67,10 @@ public class Menu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        normalText.setWrapText(true);
+        codedText.setWrapText(true);
+
         texticon.setSelected(true);
 
         normalfileField.setVisible(false);
@@ -69,6 +78,7 @@ public class Menu implements Initializable {
         SaveButton1.setVisible(false);
         saveText.setVisible(false);
         chooseText.setVisible(false);
+        fileExtenson.setVisible(false);
     }
 
     private void genFirstKey() {
@@ -107,6 +117,7 @@ public class Menu implements Initializable {
         SaveButton1.setVisible(true);
         saveText.setVisible(true);
         chooseText.setVisible(true);
+        fileExtenson.setVisible(true);
     }
 
     public void onTextChoose(ActionEvent actionEvent) {
@@ -118,7 +129,10 @@ public class Menu implements Initializable {
         SaveButton1.setVisible(false);
         saveText.setVisible(false);
         chooseText.setVisible(false);
+        fileExtenson.setVisible(false);
     }
+
+    private byte[] bytes;
 
     public void onNormalFileChoose(ActionEvent actionEvent) {
         try {
@@ -127,7 +141,9 @@ public class Menu implements Initializable {
             fileChooser.setTitle("Open normal File");
             normalFile = fileChooser.showOpenDialog(normalFileStage);
             normalfileField.setText(normalFile.getAbsolutePath());
-            //to normalText.setText(bit array)
+            bytes = Files.readAllBytes(Path.of(normalFile.getAbsolutePath()));
+            String s = new String(bytes, System.getProperty("file.encoding"));
+            normalText.setText(s);
         } catch (Exception ignored) {
         }
     }
@@ -139,8 +155,13 @@ public class Menu implements Initializable {
             directoryChooser.setTitle("Save file");
             String directory = "";
             directory = directoryChooser.showDialog(saveFileStage).toString();
-            saveFile = new File(directory+"\\"+"codedfile");
-            saveFile.createNewFile();
+            try (FileOutputStream fos = new FileOutputStream(directory+"\\"+fileExtenson.getText())) {
+                fos.write(bytes);
+                fos.close();
+                fileExtenson.clear();
+            } catch (Exception ignored) {
+
+            }
         } catch (Exception ignored) {
 
         }

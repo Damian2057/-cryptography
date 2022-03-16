@@ -48,8 +48,9 @@
       <Text layoutX="285.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Key" />
       <Text layoutX="283.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Second Key" />
       <Text layoutX="282.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Third Key" />
-      <Button fx:id="SaveButton1" layoutX="585.0" layoutY="540.0" mnemonicParsing="false" onAction="#onSaveFileChoose" prefHeight="26.0" prefWidth="74.0" text="Save" />
-      <Text fx:id="saveText" layoutX="544.0" layoutY="531.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Save file:" textAlignment="CENTER" wrappingWidth="155.20001220703102">
+      <Button fx:id="SaveButton1" layoutX="663.0" layoutY="536.0" mnemonicParsing="false" onAction="#onSaveFileChoose" prefHeight="26.0" prefWidth="106.0" text="Save" />
+      <TextField fx:id="fileExtenson" layoutX="533.0" layoutY="536.0" prefHeight="26.0" prefWidth="134.0" />
+      <Text fx:id="saveText" layoutX="560.0" layoutY="534.0" strokeType="OUTSIDE" strokeWidth="0.0" text="file name with extension" textAlignment="CENTER" wrappingWidth="186.39993896484373">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
