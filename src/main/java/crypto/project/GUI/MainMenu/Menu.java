@@ -46,22 +46,25 @@ public class Menu implements Initializable {
 
     private Stage saveFileStage;
 
+    private byte[] textAreaInByteForm;
+    private byte[] fileInByteForm;
+
     public void onCode(ActionEvent actionEvent) {
         DesX desX = new DesX();
 
-        byte[] preparedText = TypeConverter.stringToByteTab(normalText.getText());
+        textAreaInByteForm = TypeConverter.stringToByteTab(normalText.getText());
 
         byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
         byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
         byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
+        byte[] a = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
 
-//        byte[] xd = XorFunction.xorBytes(preparedText,firstXorKey);
-//        byte[] xdd = XorFunction.xorBytes(xd,firstXorKey);
-//
-//        codedText.setText(TypeConverter.byteTabToString(xdd));
+        byte[] xd = desX.codeText(a,firstXorKey,desKey,secondXorKey);
+        codedText.setText(TypeConverter.byteTabToString(xd));
     }
 
     public void onDeCode(ActionEvent actionEvent) {
+
     }
 
     public void show() throws IOException {
@@ -93,10 +96,14 @@ public class Menu implements Initializable {
     }
 
     private String generateKey(int length) throws UnsupportedEncodingException {
-        byte[] array = new byte[8]; // 32 key
-        new Random().nextBytes(array);
-        String generatedString = new String(array, System.getProperty("file.encoding"));
-        return generatedString;
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        Random random = new Random();
+
+        return random.ints(leftLimit, rightLimit + 1)
+                .limit(length)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
     private void genFirstKey() throws UnsupportedEncodingException {
@@ -109,7 +116,6 @@ public class Menu implements Initializable {
 
     private void genThirdKey() throws UnsupportedEncodingException {
         keyText3.setText(generateKey(8));
-        System.out.println(keyText3.getText());
     }
 
     public void onGenerate(ActionEvent actionEvent) throws UnsupportedEncodingException {
@@ -142,8 +148,6 @@ public class Menu implements Initializable {
         fileExtenson.setVisible(false);
     }
 
-    private byte[] bytes;
-
     public void onNormalFileChoose(ActionEvent actionEvent) {
         try {
             normalFileStage = new Stage();
@@ -151,8 +155,8 @@ public class Menu implements Initializable {
             fileChooser.setTitle("Open normal File");
             normalFile = fileChooser.showOpenDialog(normalFileStage);
             normalfileField.setText(normalFile.getAbsolutePath());
-            bytes = Files.readAllBytes(Path.of(normalFile.getAbsolutePath()));
-            String s = new String(bytes, System.getProperty("file.encoding"));
+            fileInByteForm = Files.readAllBytes(Path.of(normalFile.getAbsolutePath()));
+            String s = new String(fileInByteForm, System.getProperty("file.encoding"));
             normalText.setText(s);
         } catch (Exception ignored) {
         }
@@ -166,7 +170,7 @@ public class Menu implements Initializable {
             String directory = "";
             directory = directoryChooser.showDialog(saveFileStage).toString();
             try (FileOutputStream fos = new FileOutputStream(directory+"\\"+fileExtenson.getText())) {
-                fos.write(bytes);
+                fos.write(fileInByteForm);
                 fos.close();
                 fileExtenson.clear();
             } catch (Exception ignored) {

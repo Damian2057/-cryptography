@@ -18,4 +18,13 @@ public class TypeConverter {
         }
         return temp.toString();
     }
+
+    public static byte[] getCountOfBytes(byte[] text, int index, int count) {
+        byte[] temp = new byte[count];
+        for (int i = 0; i < count; i++) {
+            temp[i] = text[index];
+            index++;
+        }
+        return temp;
+    }
 }
