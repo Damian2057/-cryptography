@@ -47,32 +47,29 @@ public class Menu implements Initializable {
 
     private byte[] textAreaInByteForm;
     private byte[] fileInByteForm;
+    private final DesX desX = new DesX();
 
     public void onCode(ActionEvent actionEvent) {
-        DesX desX = new DesX();
-
         textAreaInByteForm = TypeConverter.stringToByteTab(normalText.getText());
 
         byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
         byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
         byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
 
-        byte[] xd = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
-        codedText.setText(TypeConverter.byteTabToString(xd));
+        byte[] text = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
+        codedText.setText(TypeConverter.byteTabToString(text));
     }
 
     public void onDeCode(ActionEvent actionEvent) {
-        DesX desX = new DesX();
-
         textAreaInByteForm = TypeConverter.stringToByteTab(codedText.getText());
 
         byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
         byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
         byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
 
-        byte[] xd = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
+        byte[] text = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
 
-        normalText.setText(TypeConverter.byteTabToString(xd));
+        normalText.setText(TypeConverter.byteTabToString(text));
     }
 
     public void show() throws IOException {
@@ -107,7 +104,6 @@ public class Menu implements Initializable {
         int leftLimit = 97; // letter 'a'
         int rightLimit = 122; // letter 'z'
         Random random = new Random();
-
         return random.ints(leftLimit, rightLimit + 1)
                 .limit(length)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
@@ -185,9 +181,6 @@ public class Menu implements Initializable {
 
             }
         } catch (Exception ignored) {
-
         }
-
-
     }
 }
