@@ -27,7 +27,7 @@ public class Menu implements Initializable {
 
     @FXML
     public TextArea normalText = new TextArea();
-    public TextArea codedText = new TextArea();
+    public Label codedText = new Label();
     public Button onGenerate;
     public TextField normalfileField = new TextField();
     public Button normalFileButton = new Button();
@@ -43,7 +43,6 @@ public class Menu implements Initializable {
 
     private File normalFile;
     private Stage normalFileStage;
-
     private Stage saveFileStage;
 
     private byte[] textAreaInByteForm;
@@ -57,14 +56,23 @@ public class Menu implements Initializable {
         byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
         byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
         byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
-        byte[] a = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
 
-        byte[] xd = desX.codeText(a,firstXorKey,desKey,secondXorKey);
+        byte[] xd = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
         codedText.setText(TypeConverter.byteTabToString(xd));
     }
 
     public void onDeCode(ActionEvent actionEvent) {
+        DesX desX = new DesX();
 
+        textAreaInByteForm = TypeConverter.stringToByteTab(codedText.getText());
+
+        byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
+        byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
+        byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
+
+        byte[] xd = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
+
+        normalText.setText(TypeConverter.byteTabToString(xd));
     }
 
     public void show() throws IOException {

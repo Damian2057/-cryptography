@@ -12,7 +12,7 @@ public class DesX {
     public byte[] codeText(byte[] text, byte[] firstXorKey, byte[] desKey, byte[] secondXorKey) {
 
         byte[] xorFirst = xor(text,firstXorKey);
-       // byte[] des = null;
+            // byte[] des = null;
         //byte[] xorSecond = xor(des,secondXorKey);
 
         //return xorSecond;
