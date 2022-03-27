@@ -1,5 +1,8 @@
 package crypto.project.GUI.MainMenu;
 
+import crypto.project.Model.castTypes.TypeConverter;
+import crypto.project.Model.castTypes.XorFunction;
+import crypto.project.Model.crypto.DesX;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,14 +14,11 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -44,10 +44,21 @@ public class Menu implements Initializable {
     private File normalFile;
     private Stage normalFileStage;
 
-    private File saveFile;
     private Stage saveFileStage;
 
     public void onCode(ActionEvent actionEvent) {
+        DesX desX = new DesX();
+
+        byte[] preparedText = TypeConverter.stringToByteTab(normalText.getText());
+
+        byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
+        byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
+        byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
+
+//        byte[] xd = XorFunction.xorBytes(preparedText,firstXorKey);
+//        byte[] xdd = XorFunction.xorBytes(xd,firstXorKey);
+//
+//        codedText.setText(TypeConverter.byteTabToString(xdd));
     }
 
     public void onDeCode(ActionEvent actionEvent) {
@@ -81,28 +92,27 @@ public class Menu implements Initializable {
         fileExtenson.setVisible(false);
     }
 
-    private void genFirstKey() {
-        byte[] array = new byte[64]; // 32 key
+    private String generateKey(int length) throws UnsupportedEncodingException {
+        byte[] array = new byte[8]; // 32 key
         new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
-        keyText1.setText(generatedString);
+        String generatedString = new String(array, System.getProperty("file.encoding"));
+        return generatedString;
     }
 
-    private void genSecondKey() {
-        byte[] array = new byte[56]; // 32 key
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
-        keyText2.setText(generatedString);
+    private void genFirstKey() throws UnsupportedEncodingException {
+        keyText1.setText(generateKey(8));
     }
 
-    private void genThirdKey() {
-        byte[] array = new byte[64]; // 32 key
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
-        keyText3.setText(generatedString);
+    private void genSecondKey() throws UnsupportedEncodingException {
+        keyText2.setText(generateKey(7));
     }
 
-    public void onGenerate(ActionEvent actionEvent) {
+    private void genThirdKey() throws UnsupportedEncodingException {
+        keyText3.setText(generateKey(8));
+        System.out.println(keyText3.getText());
+    }
+
+    public void onGenerate(ActionEvent actionEvent) throws UnsupportedEncodingException {
         genFirstKey();
         genSecondKey();
         genThirdKey();
