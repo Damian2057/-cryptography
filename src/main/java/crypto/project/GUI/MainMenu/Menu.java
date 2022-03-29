@@ -1,7 +1,6 @@
 package crypto.project.GUI.MainMenu;
 
 import crypto.project.Model.castTypes.TypeConverter;
-import crypto.project.Model.castTypes.XorFunction;
 import crypto.project.Model.crypto.DesX;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +18,7 @@ import java.net.URL;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -27,7 +27,7 @@ public class Menu implements Initializable {
 
     @FXML
     public TextArea normalText = new TextArea();
-    public Label codedText = new Label();
+    public TextArea codedText = new TextArea();
     public Button onGenerate;
     public TextField normalfileField = new TextField();
     public Button normalFileButton = new Button();
@@ -41,6 +41,10 @@ public class Menu implements Initializable {
     public Text chooseText = new Text();
     public TextField fileExtenson = new TextField();
 
+    public Button SaveButtonText = new Button();
+    public TextField fileExtensonText = new TextField();
+    public Text savecodedText = new Text();
+
     private File normalFile;
     private Stage normalFileStage;
     private Stage saveFileStage;
@@ -50,26 +54,47 @@ public class Menu implements Initializable {
     private final DesX desX = new DesX();
 
     public void onCode(ActionEvent actionEvent) {
-        textAreaInByteForm = TypeConverter.stringToByteTab(normalText.getText());
+        try {
+            textAreaInByteForm = TypeConverter.stringToByteTab(normalText.getText());
 
-        byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
-        byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
-        byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
+            byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
+            byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
+            byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
 
-        byte[] text = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
-        codedText.setText(TypeConverter.byteTabToString(text));
+            //byte[] text = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
+            byte[] text = Base64.getEncoder().encode(desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey));
+           // Base64.getEncoder().encode(text);
+            codedText.setText(new String(text));
+        } catch (Exception e) {
+            try {
+                Error error = new Error();
+                error.show();
+            } catch (Exception ex) {
+
+            }
+        }
     }
 
-    public void onDeCode(ActionEvent actionEvent) {
-        textAreaInByteForm = TypeConverter.stringToByteTab(codedText.getText());
+    public void onDeCode(ActionEvent actionEvent) throws IOException {
+        try {
 
-        byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
-        byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
-        byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
+            byte[] temp = Base64.getDecoder().decode(codedText.getText());
 
-        byte[] text = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
+            byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
+            byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
+            byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
 
-        normalText.setText(TypeConverter.byteTabToString(text));
+            byte[] text = desX.codeText(temp,firstXorKey,desKey,secondXorKey);
+
+            normalText.setText(TypeConverter.byteTabToString(text));
+        } catch (Exception e) {
+            try {
+                Error error = new Error();
+                error.show();
+            } catch (Exception ex) {
+
+            }
+        }
     }
 
     public void show() throws IOException {
@@ -129,6 +154,9 @@ public class Menu implements Initializable {
     }
 
     public void onFIleChooose(ActionEvent actionEvent) {
+        SaveButtonText.setVisible(false);
+        fileExtensonText.setVisible(false);
+        savecodedText.setVisible(false);
         fileicon.setSelected(true);
         texticon.setSelected(false);
 
@@ -138,9 +166,15 @@ public class Menu implements Initializable {
         saveText.setVisible(true);
         chooseText.setVisible(true);
         fileExtenson.setVisible(true);
+
+        codedText.setText("");
+        normalText.setText("");
     }
 
     public void onTextChoose(ActionEvent actionEvent) {
+        SaveButtonText.setVisible(true);
+        fileExtensonText.setVisible(true);
+        savecodedText.setVisible(true);
         texticon.setSelected(true);
         fileicon.setSelected(false);
 
@@ -150,6 +184,9 @@ public class Menu implements Initializable {
         saveText.setVisible(false);
         chooseText.setVisible(false);
         fileExtenson.setVisible(false);
+
+        codedText.setText("");
+        normalText.setText("");
     }
 
     public void onNormalFileChoose(ActionEvent actionEvent) {
@@ -177,6 +214,24 @@ public class Menu implements Initializable {
                 fos.write(fileInByteForm);
                 fos.close();
                 fileExtenson.clear();
+            } catch (Exception ignored) {
+
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    public void onSaveFileChooseText(ActionEvent actionEvent) {
+        try {
+            saveFileStage = new Stage();
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Save file");
+            String directory = "";
+            directory = directoryChooser.showDialog(saveFileStage).toString();
+            try (FileOutputStream fos = new FileOutputStream(directory+"\\"+fileExtensonText.getText())) {
+                fos.write(Integer.parseInt(codedText.getText()));
+                fos.close();
+                fileExtensonText.clear();
             } catch (Exception ignored) {
 
             }
