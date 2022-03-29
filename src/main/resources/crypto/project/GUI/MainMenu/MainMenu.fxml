@@ -11,56 +11,63 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crypto.project.GUI.MainMenu.Menu">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#788591" height="239.0" layoutX="117.0" layoutY="27.0" stroke="BLACK" strokeType="INSIDE" width="566.0" />
-      <TextArea fx:id="normalText" layoutX="88.0" layoutY="331.0" prefHeight="174.0" prefWidth="178.0" />
-      <Button layoutX="351.0" layoutY="418.0" mnemonicParsing="false" onAction="#onCode" prefHeight="36.0" prefWidth="124.0" text="Code -&gt;" textAlignment="CENTER" />
-      <Button layoutX="351.0" layoutY="470.0" mnemonicParsing="false" onAction="#onDeCode" prefHeight="36.0" prefWidth="124.0" text="&lt;- Decode" textAlignment="CENTER" />
-      <Button fx:id="onGenerate" layoutX="521.0" layoutY="121.0" mnemonicParsing="false" onAction="#onGenerate" prefHeight="61.0" prefWidth="106.0" text="Generate Keys" textAlignment="CENTER" />
-      <Text layoutX="335.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose type of operation:" textAlignment="CENTER" wrappingWidth="178.39999999999986">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#788591" height="239.0" layoutX="117.0" stroke="BLACK" strokeType="INSIDE" width="566.0" />
+      <TextArea fx:id="normalText" layoutX="76.0" layoutY="281.0" prefHeight="174.0" prefWidth="178.0" />
+      <Button layoutX="339.0" layoutY="368.0" mnemonicParsing="false" onAction="#onCode" prefHeight="36.0" prefWidth="124.0" text="Code -&gt;" textAlignment="CENTER" />
+      <Button layoutX="339.0" layoutY="420.0" mnemonicParsing="false" onAction="#onDeCode" prefHeight="36.0" prefWidth="124.0" text="&lt;- Decode" textAlignment="CENTER" />
+      <Button fx:id="onGenerate" layoutX="521.0" layoutY="94.0" mnemonicParsing="false" onAction="#onGenerate" prefHeight="61.0" prefWidth="106.0" text="Generate Keys" textAlignment="CENTER" />
+      <Text layoutX="323.0" layoutY="283.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose type of operation:" textAlignment="CENTER" wrappingWidth="178.39999999999986">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Text>
-      <Text layoutX="115.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Normal Text" textAlignment="CENTER" wrappingWidth="123.99999999999977">
+      <Text layoutX="103.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Normal Text" textAlignment="CENTER" wrappingWidth="123.99999999999977">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Text>
-      <Text layoutX="575.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coded Text" textAlignment="CENTER" wrappingWidth="123.99999999999977">
+      <Text layoutX="563.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coded Text" textAlignment="CENTER" wrappingWidth="123.99999999999977">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Text>
-      <Text layoutX="117.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generate keys:" textAlignment="CENTER" wrappingWidth="123.99999999999977">
+      <Text layoutX="117.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generate keys:" textAlignment="CENTER" wrappingWidth="123.99999999999977">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Text>
-      <TextField fx:id="normalfileField" layoutX="80.0" layoutY="540.0" prefHeight="26.0" prefWidth="178.0" />
-      <Button fx:id="normalFileButton" layoutX="240.0" layoutY="540.0" mnemonicParsing="false" onAction="#onNormalFileChoose" prefHeight="26.0" prefWidth="74.0" text="choose file" />
-      <Text fx:id="chooseText" layoutX="91.0" layoutY="535.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose  file:" textAlignment="CENTER" wrappingWidth="155.20001220703102">
+      <TextField fx:id="uploadNormalFile" layoutX="72.0" layoutY="492.0" prefHeight="26.0" prefWidth="178.0" />
+      <Button fx:id="chooseNormalFile" layoutX="232.0" layoutY="492.0" mnemonicParsing="false" onAction="#onNormalFileChoose" prefHeight="26.0" prefWidth="74.0" text="choose file" />
+      <Text fx:id="chooseText" layoutX="83.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upload  file:" textAlignment="CENTER" wrappingWidth="155.20001220703102">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Text>
-      <RadioButton fx:id="fileicon" layoutX="393.0" layoutY="353.0" mnemonicParsing="false" onAction="#onFIleChooose" text="File" />
-      <RadioButton fx:id="texticon" layoutX="391.0" layoutY="384.0" mnemonicParsing="false" onAction="#onTextChoose" text="Text" />
-      <TextArea fx:id="keyText2" layoutX="152.0" layoutY="132.0" prefHeight="39.0" prefWidth="318.0" />
-      <TextArea fx:id="keyText3" layoutX="155.0" layoutY="197.0" prefHeight="39.0" prefWidth="318.0" />
-      <TextArea fx:id="keyText1" layoutX="150.0" layoutY="63.0" prefHeight="39.0" prefWidth="317.0" />
-      <Text layoutX="285.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Key" />
-      <Text layoutX="283.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Second Key" />
-      <Text layoutX="282.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Third Key" />
-      <Button fx:id="SaveButton1" layoutX="663.0" layoutY="536.0" mnemonicParsing="false" onAction="#onSaveFileChoose" prefHeight="26.0" prefWidth="106.0" text="Save" />
-      <TextField fx:id="fileExtenson" layoutX="533.0" layoutY="536.0" prefHeight="26.0" prefWidth="134.0" />
-      <Text fx:id="saveText" layoutX="560.0" layoutY="534.0" strokeType="OUTSIDE" strokeWidth="0.0" text="file name with extension" textAlignment="CENTER" wrappingWidth="186.39993896484373">
+      <RadioButton fx:id="fileicon" layoutX="381.0" layoutY="303.0" mnemonicParsing="false" onAction="#onFIleChooose" text="File" />
+      <RadioButton fx:id="texticon" layoutX="379.0" layoutY="334.0" mnemonicParsing="false" onAction="#onTextChoose" text="Text" />
+      <TextArea fx:id="keyText2" layoutX="152.0" layoutY="105.0" prefHeight="39.0" prefWidth="318.0" />
+      <TextArea fx:id="keyText3" layoutX="155.0" layoutY="170.0" prefHeight="39.0" prefWidth="318.0" />
+      <TextArea fx:id="keyText1" layoutX="150.0" layoutY="36.0" prefHeight="39.0" prefWidth="317.0" />
+      <Text layoutX="285.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Key" />
+      <Text layoutX="283.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Second Key" />
+      <Text layoutX="282.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Third Key" />
+      <Button fx:id="SaveCodedFile" layoutX="661.0" layoutY="561.0" mnemonicParsing="false" onAction="#onSaveCodedFile" prefHeight="26.0" prefWidth="106.0" text="Save" />
+      <TextField fx:id="saveCodedFile" layoutX="531.0" layoutY="561.0" prefHeight="26.0" prefWidth="134.0" />
+      <Text fx:id="saveText" layoutX="545.0" layoutY="554.0" strokeType="OUTSIDE" strokeWidth="0.0" text="save as a file" textAlignment="CENTER" wrappingWidth="186.39993896484373">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Text>
-      <Button fx:id="SaveButtonText" layoutX="663.0" layoutY="535.0" mnemonicParsing="false" onAction="#onSaveFileChooseText" prefHeight="26.0" prefWidth="106.0" text="Save" />
-      <TextField fx:id="fileExtensonText" layoutX="533.0" layoutY="535.0" prefHeight="26.0" prefWidth="134.0" />
-      <Text fx:id="savecodedText" layoutX="560.0" layoutY="533.0" strokeType="OUTSIDE" strokeWidth="0.0" text="save coded Text" textAlignment="CENTER" wrappingWidth="186.39993896484373">
+      <TextArea fx:id="codedText" layoutX="525.0" layoutY="268.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="SaveNormalFile" layoutX="202.0" layoutY="553.0" mnemonicParsing="false" onAction="#onSaveFileChoose" prefHeight="26.0" prefWidth="106.0" text="Save" />
+      <TextField fx:id="saveNormalFile" layoutX="72.0" layoutY="553.0" prefHeight="26.0" prefWidth="134.0" />
+      <Text fx:id="saveText1" layoutX="76.0" layoutY="544.0" strokeType="OUTSIDE" strokeWidth="0.0" text="save as a file" textAlignment="CENTER" wrappingWidth="186.39993896484373">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Text>
-      <TextArea fx:id="codedText" layoutX="537.0" layoutY="318.0" prefHeight="200.0" prefWidth="200.0" />
+      <TextField fx:id="uploadCodedFile" layoutX="534.0" layoutY="502.0" prefHeight="26.0" prefWidth="178.0" />
+      <Button fx:id="chooseCodedFile" layoutX="694.0" layoutY="502.0" mnemonicParsing="false" onAction="#onchooseCodedFile" prefHeight="26.0" prefWidth="74.0" text="choose file" />
+      <Text fx:id="chooseText1" layoutX="545.0" layoutY="497.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upload  file:" textAlignment="CENTER" wrappingWidth="155.20001220703102">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

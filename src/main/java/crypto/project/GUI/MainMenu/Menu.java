@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -25,70 +24,83 @@ import java.util.ResourceBundle;
 
 public class Menu implements Initializable {
 
-    @FXML
+    private final DesX desX = new DesX();
+
+    @FXML //general variables
     public TextArea normalText = new TextArea();
     public TextArea codedText = new TextArea();
     public Button onGenerate;
-    public TextField normalfileField = new TextField();
-    public Button normalFileButton = new Button();
     public RadioButton fileicon = new RadioButton();
     public RadioButton texticon = new RadioButton();
     public TextArea keyText2;
     public TextArea keyText3;
     public TextArea keyText1;
-    public Button SaveButton1 = new Button();
-    public Text saveText = new Text();
-    public Text chooseText = new Text();
-    public TextField fileExtenson = new TextField();
 
-    public Button SaveButtonText = new Button();
-    public TextField fileExtensonText = new TextField();
-    public Text savecodedText = new Text();
+    @FXML //file system support
+    public TextField uploadNormalFile;
+    public Button chooseNormalFile;
+    public Button SaveCodedFile;
+    public TextField saveCodedFile;
+    public Button SaveNormalFile;
+    public TextField saveNormalFile;
+    public TextField uploadCodedFile;
+    public Button chooseCodedFile;
 
-    private File normalFile;
-    private Stage normalFileStage;
-    private Stage saveFileStage;
+    private File normalFileBuffer;
+    private byte[] normalFileInByteForm;
 
-    private byte[] textAreaInByteForm;
-    private byte[] fileInByteForm;
-    private final DesX desX = new DesX();
+    private File codedFileBuffor;
+    private byte[] codedFileInByteForm;
+
 
     public void onCode(ActionEvent actionEvent) {
         try {
-            textAreaInByteForm = TypeConverter.stringToByteTab(normalText.getText());
-
             byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
             byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
             byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
 
-            //byte[] text = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
-            byte[] text = Base64.getEncoder().encode(desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey));
-           // Base64.getEncoder().encode(text);
-            codedText.setText(new String(text));
+            byte[] textAreaInByteForm = null;
+
+            if(texticon.isSelected()) { //select the appropriate buffer for analysis
+                textAreaInByteForm = TypeConverter.stringToByteTab(normalText.getText());
+                byte[] text = Base64.getEncoder().encode(desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey));
+                codedText.setText(new String(text));
+            } else {
+                textAreaInByteForm = normalFileInByteForm;
+                codedFileInByteForm = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
+                byte[] text = Base64.getEncoder().encode(codedFileInByteForm);
+                codedText.setText(new String(text));
+            }
         } catch (Exception e) {
             try {
                 Error error = new Error();
                 error.show();
-            } catch (Exception ex) {
-
+            } catch (Exception ignored) {
             }
         }
     }
 
     public void onDeCode(ActionEvent actionEvent) throws IOException {
         try {
-
-            byte[] temp = Base64.getDecoder().decode(codedText.getText());
-
             byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
             byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
             byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
 
-            byte[] text = desX.codeText(temp,firstXorKey,desKey,secondXorKey);
+            byte[] textAreaInByteForm = null;
 
-            normalText.setText(TypeConverter.byteTabToString(text));
+            if(texticon.isSelected()) { //select the appropriate buffer for analysis
+                byte[] temp = Base64.getDecoder().decode(codedText.getText());
+                byte[] text = desX.codeText(temp,firstXorKey,desKey,secondXorKey);
+                normalText.setText(TypeConverter.byteTabToString(text));
+            } else {
+                textAreaInByteForm = codedFileInByteForm;
+                normalFileInByteForm = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
+                byte[] text = Base64.getEncoder().encode(normalFileInByteForm);
+                normalText.setText(TypeConverter.byteTabToString(text));
+            }
         } catch (Exception e) {
             try {
+                e.printStackTrace();
                 Error error = new Error();
                 error.show();
             } catch (Exception ex) {
@@ -116,13 +128,6 @@ public class Menu implements Initializable {
         codedText.setWrapText(true);
 
         texticon.setSelected(true);
-
-        normalfileField.setVisible(false);
-        normalFileButton.setVisible(false);
-        SaveButton1.setVisible(false);
-        saveText.setVisible(false);
-        chooseText.setVisible(false);
-        fileExtenson.setVisible(false);
     }
 
     private String generateKey(int length) throws UnsupportedEncodingException {
@@ -154,87 +159,122 @@ public class Menu implements Initializable {
     }
 
     public void onFIleChooose(ActionEvent actionEvent) {
-        SaveButtonText.setVisible(false);
-        fileExtensonText.setVisible(false);
-        savecodedText.setVisible(false);
         fileicon.setSelected(true);
         texticon.setSelected(false);
-
-        normalfileField.setVisible(true);
-        normalFileButton.setVisible(true);
-        SaveButton1.setVisible(true);
-        saveText.setVisible(true);
-        chooseText.setVisible(true);
-        fileExtenson.setVisible(true);
-
-        codedText.setText("");
-        normalText.setText("");
     }
 
     public void onTextChoose(ActionEvent actionEvent) {
-        SaveButtonText.setVisible(true);
-        fileExtensonText.setVisible(true);
-        savecodedText.setVisible(true);
         texticon.setSelected(true);
         fileicon.setSelected(false);
-
-        normalfileField.setVisible(false);
-        normalFileButton.setVisible(false);
-        SaveButton1.setVisible(false);
-        saveText.setVisible(false);
-        chooseText.setVisible(false);
-        fileExtenson.setVisible(false);
-
-        codedText.setText("");
-        normalText.setText("");
     }
+
 
     public void onNormalFileChoose(ActionEvent actionEvent) {
         try {
-            normalFileStage = new Stage();
+            Stage normalFileStage = new Stage();
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open normal File");
-            normalFile = fileChooser.showOpenDialog(normalFileStage);
-            normalfileField.setText(normalFile.getAbsolutePath());
-            fileInByteForm = Files.readAllBytes(Path.of(normalFile.getAbsolutePath()));
-            String s = new String(fileInByteForm, System.getProperty("file.encoding"));
+            fileChooser.setTitle("Open File");
+            normalFileBuffer = fileChooser.showOpenDialog(normalFileStage);
+            uploadNormalFile.setText(normalFileBuffer.getAbsolutePath());
+            normalFileInByteForm = Files.readAllBytes(Path.of(normalFileBuffer.getAbsolutePath()));
+            String s = new String(normalFileInByteForm, System.getProperty("file.encoding"));
             normalText.setText(s);
         } catch (Exception ignored) {
         }
     }
 
-    public void onSaveFileChoose(ActionEvent actionEvent) throws IOException {
-        try {
-            saveFileStage = new Stage();
-            DirectoryChooser directoryChooser = new DirectoryChooser();
-            directoryChooser.setTitle("Save file");
-            String directory = "";
-            directory = directoryChooser.showDialog(saveFileStage).toString();
-            try (FileOutputStream fos = new FileOutputStream(directory+"\\"+fileExtenson.getText())) {
-                fos.write(fileInByteForm);
-                fos.close();
-                fileExtenson.clear();
-            } catch (Exception ignored) {
+    public void onSaveCodedFile(ActionEvent actionEvent) {
+        if(texticon.isSelected()) { //save coded text as a file(from textField)
+            try {
+                Stage saveTextAsFile = new Stage();
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setTitle("Save Text as a file");
+                String directory = "";
+                directory = directoryChooser.showDialog(saveTextAsFile).toString();
 
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(directory+"\\"+saveCodedFile.getText()));
+                    writer.write(codedText.getText());
+                    writer.close();
+                    saveCodedFile.clear();
+                } catch (Exception e) {
+                    Error error = new Error();
+                    error.show();
+                }
+            } catch (Exception ignored) {
             }
-        } catch (Exception ignored) {
+
+        } else { //save coded bytes from var as a file
+            try {
+                Stage saveFileStage = new Stage();
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setTitle("Save file");
+                String directory = "";
+                directory = directoryChooser.showDialog(saveFileStage).toString();
+                try (FileOutputStream fos = new FileOutputStream(directory+"\\"+saveCodedFile.getText())) {
+                    fos.write(codedFileInByteForm);
+                    fos.close();
+                    saveCodedFile.clear();
+                } catch (Exception ignored) {
+                    ignored.printStackTrace();
+                    Error error = new Error();
+                    error.show();
+                }
+            } catch (Exception ignored) {
+            }
         }
     }
 
-    public void onSaveFileChooseText(ActionEvent actionEvent) {
-        try {
-            saveFileStage = new Stage();
-            DirectoryChooser directoryChooser = new DirectoryChooser();
-            directoryChooser.setTitle("Save file");
-            String directory = "";
-            directory = directoryChooser.showDialog(saveFileStage).toString();
-            try (FileOutputStream fos = new FileOutputStream(directory+"\\"+fileExtensonText.getText())) {
-                fos.write(Integer.parseInt(codedText.getText()));
-                fos.close();
-                fileExtensonText.clear();
-            } catch (Exception ignored) {
+    public void onSaveFileChoose(ActionEvent actionEvent) {
+        if(texticon.isSelected()) {
+            try {
+                Stage saveNormalTextAsFile = new Stage();
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setTitle("Save Text as a file");
+                String directory = "";
+                directory = directoryChooser.showDialog(saveNormalTextAsFile).toString();
 
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(directory+"\\"+saveNormalFile.getText()));
+                    writer.write(normalText.getText());
+                    writer.close();
+                    saveNormalFile.clear();
+                } catch (Exception e) {
+                    Error error = new Error();
+                    error.show();
+                }
+            } catch (Exception ignored) {
             }
+        } else {
+            try {
+                Stage saveNormalFileStage = new Stage();
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setTitle("Save file");
+                String directory = "";
+                directory = directoryChooser.showDialog(saveNormalFileStage).toString();
+                try (FileOutputStream fos = new FileOutputStream(directory+"\\"+saveNormalFile.getText())) {
+                    fos.write(normalFileInByteForm);
+                    fos.close();
+                    saveNormalFile.clear();
+                } catch (Exception ignored) {
+                    Error error = new Error();
+                    error.show();
+                }
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    public void onchooseCodedFile(ActionEvent actionEvent) {
+        try {
+            Stage codedFileChoose = new Stage();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Coded File");
+            codedFileBuffor = fileChooser.showOpenDialog(codedFileChoose);
+            uploadCodedFile.setText(codedFileBuffor.getAbsolutePath());
+            codedFileInByteForm = Files.readAllBytes(Path.of(codedFileBuffor.getAbsolutePath()));
+            String s = new String(codedFileInByteForm, System.getProperty("file.encoding"));
+            codedText.setText(s);
         } catch (Exception ignored) {
         }
     }
