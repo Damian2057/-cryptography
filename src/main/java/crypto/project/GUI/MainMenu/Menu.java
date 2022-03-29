@@ -17,10 +17,7 @@ import java.net.URL;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Base64;
-import java.util.Objects;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Menu implements Initializable {
 
@@ -63,13 +60,17 @@ public class Menu implements Initializable {
 
             if(texticon.isSelected()) { //select the appropriate buffer for analysis
                 textAreaInByteForm = TypeConverter.stringToByteTab(normalText.getText());
+                textAreaInByteForm = completeTheBits(textAreaInByteForm);
                 byte[] text = Base64.getEncoder().encode(desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey));
                 codedText.setText(new String(text));
             } else {
                 textAreaInByteForm = normalFileInByteForm;
+                System.out.println(textAreaInByteForm.length);
+                textAreaInByteForm = completeTheBits(textAreaInByteForm);
+                System.out.println(textAreaInByteForm.length);
                 codedFileInByteForm = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
-                byte[] text = Base64.getEncoder().encode(codedFileInByteForm);
-                codedText.setText(new String(text));
+               // byte[] text = Base64.getEncoder().encode(codedFileInByteForm);
+                codedText.setText("The file was encoded, now it is in the buffer");
             }
         } catch (Exception e) {
             try {
@@ -107,6 +108,24 @@ public class Menu implements Initializable {
 
             }
         }
+    }
+
+
+    private byte[] completeTheBits(byte[] bytes) {
+        int numberOfBytes = bytes.length;
+        byte howMany = 0;
+        while (numberOfBytes % 8 != 0) {
+            numberOfBytes++;
+            howMany++;
+        }
+        byte[] filled = new byte[numberOfBytes];
+        System.arraycopy(bytes, 0, filled, 0, bytes.length);
+        if(howMany != 0) {
+            howMany--;
+            Arrays.fill(filled,bytes.length, numberOfBytes, (byte) 0);
+            filled[filled.length-1] = howMany;
+        }
+        return filled;
     }
 
     public void show() throws IOException {
@@ -159,15 +178,18 @@ public class Menu implements Initializable {
     }
 
     public void onFIleChooose(ActionEvent actionEvent) {
+        normalText.clear();
+        codedText.clear();
         fileicon.setSelected(true);
         texticon.setSelected(false);
     }
 
     public void onTextChoose(ActionEvent actionEvent) {
+        normalText.clear();
+        codedText.clear();
         texticon.setSelected(true);
         fileicon.setSelected(false);
     }
-
 
     public void onNormalFileChoose(ActionEvent actionEvent) {
         try {
@@ -177,8 +199,12 @@ public class Menu implements Initializable {
             normalFileBuffer = fileChooser.showOpenDialog(normalFileStage);
             uploadNormalFile.setText(normalFileBuffer.getAbsolutePath());
             normalFileInByteForm = Files.readAllBytes(Path.of(normalFileBuffer.getAbsolutePath()));
-            String s = new String(normalFileInByteForm, System.getProperty("file.encoding"));
-            normalText.setText(s);
+            if(texticon.isSelected()) {
+                String s = new String(normalFileInByteForm, System.getProperty("file.encoding"));
+                normalText.setText(s);
+            } else {
+                normalText.setText("The file has been loaded into the buffer");
+            }
         } catch (Exception ignored) {
         }
     }
@@ -267,14 +293,19 @@ public class Menu implements Initializable {
 
     public void onchooseCodedFile(ActionEvent actionEvent) {
         try {
+
             Stage codedFileChoose = new Stage();
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Coded File");
             codedFileBuffor = fileChooser.showOpenDialog(codedFileChoose);
             uploadCodedFile.setText(codedFileBuffor.getAbsolutePath());
             codedFileInByteForm = Files.readAllBytes(Path.of(codedFileBuffor.getAbsolutePath()));
-            String s = new String(codedFileInByteForm, System.getProperty("file.encoding"));
-            codedText.setText(s);
+            if(texticon.isSelected()) {
+                String s = new String(codedFileInByteForm, System.getProperty("file.encoding"));
+                codedText.setText(s);
+            } else {
+                codedText.setText("file loaded into the buffer");
+            }
         } catch (Exception ignored) {
         }
     }
