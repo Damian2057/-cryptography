@@ -6,13 +6,11 @@ import crypto.project.Model.castTypes.XorFunction;
 public class DesX {
 
     private Des des = new Des();
-    private byte[] codedText;
-    private byte[] decodedText;
 
     public byte[] codeText(byte[] text, byte[] firstXorKey, byte[] desKey, byte[] secondXorKey) {
 
-        byte[] xorFirst = xor(text,firstXorKey);
-            // byte[] des = null;
+        byte[] xorFirst = xorByKey(text,firstXorKey);
+        // byte[] des = des.codeText(text, desKey);
         //byte[] xorSecond = xor(des,secondXorKey);
 
         //return xorSecond;
@@ -24,7 +22,7 @@ public class DesX {
         return null;
     }
 
-    private byte[] xor(byte[] text, byte[] key) {
+    private byte[] xorByKey(byte[] text, byte[] key) {
         byte[] temp;
 
         int n = text.length;

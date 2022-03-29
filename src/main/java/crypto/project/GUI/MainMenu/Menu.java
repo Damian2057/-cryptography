@@ -65,10 +65,8 @@ public class Menu implements Initializable {
                 codedText.setText(new String(text));
             } else {
                 textAreaInByteForm = normalFileInByteForm;
-                System.out.println(textAreaInByteForm.length);
                 textAreaInByteForm = TypeConverter.completeTheBits(textAreaInByteForm);
                 codedFileInByteForm = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
-               // byte[] text = Base64.getEncoder().encode(codedFileInByteForm);
                 codedText.setText("The file was encoded, now it is in the buffer");
             }
         } catch (Exception e) {
@@ -101,7 +99,6 @@ public class Menu implements Initializable {
             }
         } catch (Exception e) {
             try {
-                e.printStackTrace();
                 Error error = new Error();
                 error.show();
             } catch (Exception ex) {
