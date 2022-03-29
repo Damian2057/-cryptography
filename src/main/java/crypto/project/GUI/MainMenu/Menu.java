@@ -60,14 +60,13 @@ public class Menu implements Initializable {
 
             if(texticon.isSelected()) { //select the appropriate buffer for analysis
                 textAreaInByteForm = TypeConverter.stringToByteTab(normalText.getText());
-                textAreaInByteForm = completeTheBits(textAreaInByteForm);
+                textAreaInByteForm = TypeConverter.completeTheBits(textAreaInByteForm);
                 byte[] text = Base64.getEncoder().encode(desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey));
                 codedText.setText(new String(text));
             } else {
                 textAreaInByteForm = normalFileInByteForm;
                 System.out.println(textAreaInByteForm.length);
-                textAreaInByteForm = completeTheBits(textAreaInByteForm);
-                System.out.println(textAreaInByteForm.length);
+                textAreaInByteForm = TypeConverter.completeTheBits(textAreaInByteForm);
                 codedFileInByteForm = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
                // byte[] text = Base64.getEncoder().encode(codedFileInByteForm);
                 codedText.setText("The file was encoded, now it is in the buffer");
@@ -92,12 +91,13 @@ public class Menu implements Initializable {
             if(texticon.isSelected()) { //select the appropriate buffer for analysis
                 byte[] temp = Base64.getDecoder().decode(codedText.getText());
                 byte[] text = desX.codeText(temp,firstXorKey,desKey,secondXorKey);
+                text = TypeConverter.cutLastBytes(text);
                 normalText.setText(TypeConverter.byteTabToString(text));
             } else {
                 textAreaInByteForm = codedFileInByteForm;
                 normalFileInByteForm = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
-                byte[] text = Base64.getEncoder().encode(normalFileInByteForm);
-                normalText.setText(TypeConverter.byteTabToString(text));
+                normalFileInByteForm = TypeConverter.cutLastBytes(normalFileInByteForm);
+                normalText.setText("Decoded file is in the buffer");
             }
         } catch (Exception e) {
             try {
@@ -108,24 +108,6 @@ public class Menu implements Initializable {
 
             }
         }
-    }
-
-
-    private byte[] completeTheBits(byte[] bytes) {
-        int numberOfBytes = bytes.length;
-        byte howMany = 0;
-        while (numberOfBytes % 8 != 0) {
-            numberOfBytes++;
-            howMany++;
-        }
-        byte[] filled = new byte[numberOfBytes];
-        System.arraycopy(bytes, 0, filled, 0, bytes.length);
-        if(howMany != 0) {
-            howMany--;
-            Arrays.fill(filled,bytes.length, numberOfBytes, (byte) 0);
-            filled[filled.length-1] = howMany;
-        }
-        return filled;
     }
 
     public void show() throws IOException {
