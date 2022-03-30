@@ -88,12 +88,12 @@ public class Menu implements Initializable {
 
             if(texticon.isSelected()) { //select the appropriate buffer for analysis
                 byte[] temp = Base64.getDecoder().decode(codedText.getText());
-                byte[] text = desX.codeText(temp,firstXorKey,desKey,secondXorKey);
+                byte[] text = desX.deCodeText(temp,firstXorKey,desKey,secondXorKey);
                 text = TypeConverter.cutLastBytes(text);
                 normalText.setText(TypeConverter.byteTabToString(text));
             } else {
                 textAreaInByteForm = codedFileInByteForm;
-                normalFileInByteForm = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
+                normalFileInByteForm = desX.deCodeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
                 normalFileInByteForm = TypeConverter.cutLastBytes(normalFileInByteForm);
                 normalText.setText("Decoded file is in the buffer");
             }
