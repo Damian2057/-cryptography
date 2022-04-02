@@ -1,6 +1,6 @@
 package crypto.project.GUI.MainMenu;
 
-import crypto.project.Model.castTypes.TypeConverter;
+import crypto.project.Model.castTypes.Converter;
 import crypto.project.Model.crypto.algorithm.DesX;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -52,20 +52,20 @@ public class Menu implements Initializable {
 
     public void onCode(ActionEvent actionEvent) {
         try {
-            byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
-            byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
-            byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
+            byte[] firstXorKey = Converter.stringToByteTab(keyText1.getText());
+            byte[] desKey = Converter.stringToByteTab(keyText2.getText());
+            byte[] secondXorKey = Converter.stringToByteTab(keyText3.getText());
 
             byte[] textAreaInByteForm = null;
 
             if(texticon.isSelected()) { //select the appropriate buffer for analysis
-                textAreaInByteForm = TypeConverter.stringToByteTab(normalText.getText());
-                textAreaInByteForm = TypeConverter.completeTheBits(textAreaInByteForm);
+                textAreaInByteForm = Converter.stringToByteTab(normalText.getText());
+                textAreaInByteForm = Converter.completeTheBits(textAreaInByteForm);
                 byte[] text = Base64.getEncoder().encode(desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey));
                 codedText.setText(new String(text));
             } else {
                 textAreaInByteForm = normalFileInByteForm;
-                textAreaInByteForm = TypeConverter.completeTheBits(textAreaInByteForm);
+                textAreaInByteForm = Converter.completeTheBits(textAreaInByteForm);
                 codedFileInByteForm = desX.codeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
                 codedText.setText("The file was encoded, now it is in the buffer");
             }
@@ -81,21 +81,21 @@ public class Menu implements Initializable {
 
     public void onDeCode(ActionEvent actionEvent) throws IOException {
         try {
-            byte[] firstXorKey = TypeConverter.stringToByteTab(keyText1.getText());
-            byte[] desKey = TypeConverter.stringToByteTab(keyText2.getText());
-            byte[] secondXorKey = TypeConverter.stringToByteTab(keyText3.getText());
+            byte[] firstXorKey = Converter.stringToByteTab(keyText1.getText());
+            byte[] desKey = Converter.stringToByteTab(keyText2.getText());
+            byte[] secondXorKey = Converter.stringToByteTab(keyText3.getText());
 
             byte[] textAreaInByteForm = null;
 
             if(texticon.isSelected()) { //select the appropriate buffer for analysis
                 byte[] temp = Base64.getDecoder().decode(codedText.getText());
                 byte[] text = desX.deCodeText(temp,firstXorKey,desKey,secondXorKey);
-                text = TypeConverter.cutLastBytes(text);
-                normalText.setText(TypeConverter.byteTabToString(text));
+                text = Converter.cutLastBytes(text);
+                normalText.setText(Converter.byteTabToString(text));
             } else {
                 textAreaInByteForm = codedFileInByteForm;
                 normalFileInByteForm = desX.deCodeText(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
-                normalFileInByteForm = TypeConverter.cutLastBytes(normalFileInByteForm);
+                normalFileInByteForm = Converter.cutLastBytes(normalFileInByteForm);
                 normalText.setText("Decoded file is in the buffer");
             }
         } catch (Exception e) {

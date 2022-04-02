@@ -2,7 +2,7 @@ package crypto.project.Model.castTypes;
 
 import java.util.Arrays;
 
-public class TypeConverter {
+public class Converter {
 
     public static byte[] stringToByteTab(String text) {
         byte[] temp = new byte[text.length()];
@@ -28,6 +28,20 @@ public class TypeConverter {
             index++;
         }
         return temp;
+    }
+
+    public static byte[] toBinaryTab(byte[] text) {
+        byte[] binary = new byte[text.length * 8];
+        int iter = 0;
+        int size = text.length;
+        for (int i = 0; i < size; i++) {
+            for (int j = 7 + iter; j >= iter ; j--) {
+                binary[j] = (byte) (text[i] % 2);
+                text[i] = (byte) (text[i] / 2);
+            }
+            iter += 8;
+        }
+        return binary;
     }
 
     public static byte[] completeTheBits(byte[] bytes) {

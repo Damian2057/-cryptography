@@ -1,6 +1,6 @@
 package crypto.project.Model.crypto.algorithm;
 
-import crypto.project.Model.castTypes.TypeConverter;
+import crypto.project.Model.castTypes.Converter;
 import crypto.project.Model.functional.XorFunction;
 
 public class DesX implements Algorithm {
@@ -12,7 +12,7 @@ public class DesX implements Algorithm {
         int size = text.length /8;
         byte[] finalForm = new byte[text.length];
         for (int i = 0; i < size; i++) {
-            byte[] temp = TypeConverter.getCountOfBytes(text,i*8,8);
+            byte[] temp = Converter.getCountOfBytes(text,i*8,8);
             temp = XorFunction.xorBytes(temp,firstXorKey);
             temp = des.codeText(temp,desKey);
             temp = XorFunction.xorBytes(temp, secondXorKey);
@@ -27,7 +27,7 @@ public class DesX implements Algorithm {
         int size = text.length / 8;
         byte[] finalForm = new byte[text.length];
         for (int i = 0; i < size; i++) {
-            byte[] temp = TypeConverter.getCountOfBytes(text, i * 8, 8);
+            byte[] temp = Converter.getCountOfBytes(text, i * 8, 8);
             temp = XorFunction.xorBytes(temp, secondXorKey);
             //temp = des.codeText(temp,desKey);
             temp = XorFunction.xorBytes(temp, firstXorKey);

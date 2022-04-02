@@ -1,5 +1,6 @@
 package crypto.project.Model.crypto.component;
 
+import crypto.project.Model.castTypes.Converter;
 import crypto.project.Model.functional.PermutationFunction;
 
 public class DataBlock {
@@ -21,7 +22,7 @@ public class DataBlock {
 
     public DataBlock(byte[] text) {
         this.text = text;
-        finalForm = PermutationFunction.permute(initialPattern,text,64);
+        finalForm = PermutationFunction.permute(initialPattern, Converter.toBinaryTab(text),64);
         divideTextBlockIntoTwoPages(finalForm);
     }
 
