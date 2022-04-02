@@ -8,9 +8,13 @@ module Cryptography {
 
     opens crypto.project.GUI.MainMenu;
     exports crypto.project.GUI.MainMenu;
-    exports crypto.project.Model.crypto;
-    opens crypto.project.Model.crypto;
 
     opens crypto.project.Model.castTypes;
     exports crypto.project.Model.castTypes;
+    exports crypto.project.Model.crypto.algorithm;
+    opens crypto.project.Model.crypto.algorithm;
+    exports crypto.project.Model.functional;
+    opens crypto.project.Model.functional;
+    exports crypto.project.Model.crypto.component;
+    opens crypto.project.Model.crypto.component;
 }

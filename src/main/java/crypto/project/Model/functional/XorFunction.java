@@ -1,4 +1,4 @@
-package crypto.project.Model.castTypes;
+package crypto.project.Model.functional;
 
 public class XorFunction {
 

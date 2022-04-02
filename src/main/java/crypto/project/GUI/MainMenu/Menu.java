@@ -1,7 +1,7 @@
 package crypto.project.GUI.MainMenu;
 
 import crypto.project.Model.castTypes.TypeConverter;
-import crypto.project.Model.crypto.DesX;
+import crypto.project.Model.crypto.algorithm.DesX;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -102,7 +102,6 @@ public class Menu implements Initializable {
                 Error error = new Error();
                 error.show();
             } catch (Exception ex) {
-
             }
         }
     }

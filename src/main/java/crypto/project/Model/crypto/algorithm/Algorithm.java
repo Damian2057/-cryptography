@@ -1,4 +1,4 @@
-package crypto.project.Model.crypto;
+package crypto.project.Model.crypto.algorithm;
 
 public interface Algorithm {
     byte[] codeText(byte[] text, byte[] firstXorKey, byte[] desKey, byte[] secondXorKey);
