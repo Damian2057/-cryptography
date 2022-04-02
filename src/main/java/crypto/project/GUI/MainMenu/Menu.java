@@ -70,6 +70,7 @@ public class Menu implements Initializable {
                 codedText.setText("The file was encoded, now it is in the buffer");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             try {
                 Error error = new Error();
                 error.show();
