@@ -6,11 +6,11 @@ public class Des {
     // Initial Permutation Table
 
 
-    public void codeText(byte[] text, byte[] desKey) {
-
+    public byte[] codeText(byte[] text, byte[] desKey) {
+        return null;
     }
 
-    public void decodeText(byte[] text, byte[] desKey) {
-
+    public byte[] decodeText(byte[] text, byte[] desKey) {
+        return null;
     }
 }

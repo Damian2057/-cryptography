@@ -1,5 +1,6 @@
 package crypto.project.Model.crypto;
 
+import crypto.project.Model.castTypes.TypeConverter;
 import crypto.project.Model.castTypes.XorFunction;
 
 public class DesX implements Algorithm {
@@ -8,23 +9,31 @@ public class DesX implements Algorithm {
 
     @Override
     public byte[] codeText(byte[] text, byte[] firstXorKey, byte[] desKey, byte[] secondXorKey) {
+        int size = text.length /8;
+        byte[] finalForm = new byte[text.length];
+        for (int i = 0; i < size; i++) {
+            byte[] temp = TypeConverter.getCountOfBytes(text,i*8,8);
+            temp = XorFunction.xorBytes(temp,firstXorKey);
+            //temp = des.codeText(temp,desKey);
+            temp = XorFunction.xorBytes(temp, secondXorKey);
+            System.arraycopy(temp, 0, finalForm, i*8, temp.length);
+        }
 
-        byte[] textAfterFirstXOR = XorFunction.xorByKey(text,firstXorKey);
-        //byte[] textAfterDES = des.codeText(textAfterFirstXOR, desKey);
-        //byte[] textAfterSecondXOR = xor(textAfterDES,secondXorKey);
-
-        //return textAfterSecondXOR;
-        return textAfterFirstXOR;
+        return finalForm;
     }
 
     @Override
     public byte[] deCodeText(byte[] text, byte[] firstXorKey, byte[] desKey, byte[] secondXorKey) {
+        int size = text.length / 8;
+        byte[] finalForm = new byte[text.length];
+        for (int i = 0; i < size; i++) {
+            byte[] temp = TypeConverter.getCountOfBytes(text, i * 8, 8);
+            temp = XorFunction.xorBytes(temp, secondXorKey);
+            //temp = des.codeText(temp,desKey);
+            temp = XorFunction.xorBytes(temp, firstXorKey);
+            System.arraycopy(temp, 0, finalForm, i * 8, temp.length);
+        }
 
-        byte[] textAfterFirstXOR = XorFunction.xorByKey(text,firstXorKey); //later exchange firstXorKey to secondXorKey!!
-        //byte[] textAfterDES = des.codeText(textAfterFirstXOR, desKey);
-        //byte[] textAfterSecondXOR = xor(textAfterDES,firstXorKey);
-
-        //return textAfterSecondXOR;
-        return textAfterFirstXOR;
+        return finalForm;
     }
 }
