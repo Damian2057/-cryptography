@@ -43,8 +43,8 @@ public class KeyBlock {
     }
 
     private void left(byte x) {
-        byte leftTemp = 0;
-        byte rightTemp = 0;
+        byte leftTemp;
+        byte rightTemp;
         for (int i = 0; i < x; i++) {
             leftTemp = leftKey[0];
             rightTemp = rightKey[0];
@@ -59,8 +59,8 @@ public class KeyBlock {
     }
 
     private void right(byte x) {
-        byte leftTemp = 0;
-        byte rightTemp = 0;
+        byte leftTemp;
+        byte rightTemp;
         for (int i = 0; i < x; i++) {
             leftTemp = leftKey[27];
             rightTemp = rightKey[27];
