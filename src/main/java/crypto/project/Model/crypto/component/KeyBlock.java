@@ -9,8 +9,8 @@ public class KeyBlock {
     private final byte[] desKey;
     private byte[] leftKey;
     private byte[] rightKey;
-    private byte[] PC2 = new byte[48];
-    private byte[] connected = new byte[56];
+    private byte[] permutedKey = new byte[48];
+    private byte[] permutedKeyWith8ControlBits = new byte[56];
     private final byte[] leftKeyPattern = {
             57, 49, 41, 33, 25, 17,  9,
             1, 58, 50, 42, 34, 26, 18,
@@ -74,16 +74,16 @@ public class KeyBlock {
         }
     }
 
-    public byte[] getPC2() {
-        return PC2;
+    public byte[] getKeys() {
+        return permutedKey;
     }
 
     private void connectBlocks() {
-        System.arraycopy(leftKey,0, connected, 0,28);
-        System.arraycopy(rightKey, 0, connected, 28, 28);
+        System.arraycopy(leftKey,0, permutedKeyWith8ControlBits, 0,28);
+        System.arraycopy(rightKey, 0, permutedKeyWith8ControlBits, 28, 28);
     }
 
     private void permPC2() {
-        PC2 = PermutationFunction.permute(Tables.PC2, connected,48);
+        permutedKey = PermutationFunction.permute(Tables.PC2, permutedKeyWith8ControlBits,48);
     }
 }

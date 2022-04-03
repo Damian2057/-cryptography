@@ -17,4 +17,6 @@ module Cryptography {
     opens crypto.project.Model.functional;
     exports crypto.project.Model.crypto.component;
     opens crypto.project.Model.crypto.component;
+    exports crypto.project.Model.patterns;
+    opens crypto.project.Model.patterns;
 }
