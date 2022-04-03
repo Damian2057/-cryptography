@@ -18,7 +18,7 @@ public class Des {
 
     public byte[] codeText(byte[] text, byte[] desKey) {
         keyBlock = new KeyBlock(desKey);
-        dataBlock = new DataBlock(text); // 8 bajtow > nie 64 bity przekazywane
+        dataBlock = new DataBlock(text);
 
         return null;
     }

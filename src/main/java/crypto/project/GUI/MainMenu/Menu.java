@@ -143,7 +143,7 @@ public class Menu implements Initializable {
     }
 
     private void genSecondKey() throws UnsupportedEncodingException {
-        keyText2.setText(generateKey(7));
+        keyText2.setText(generateKey(8));
     }
 
     private void genThirdKey() throws UnsupportedEncodingException {
