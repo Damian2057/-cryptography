@@ -31,7 +31,7 @@ public class KeyBlock {
             48, 44, 49, 39, 56, 34, 53,
             46, 42, 50, 36, 29, 32
     };
-    private final byte[] shiftTable = {
+    private final byte[] shiftTablePattern = {
             1, 1, 2, 2, 2, 2, 2, 2,
             1, 2, 2, 2, 2, 2, 2, 1, 0
     };
@@ -43,13 +43,13 @@ public class KeyBlock {
     }
 
     public void encryptByRound(int round) {
-        left(shiftTable[round]);
+        left(shiftTablePattern[round]);
         connectBlocks();
         permPC2();
     }
 
     public void decryptByRound(int round) {
-        right(shiftTable[round]);
+        right(shiftTablePattern[round]);
         connectBlocks();
         permPC2();
     }
