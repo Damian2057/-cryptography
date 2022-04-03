@@ -2,6 +2,7 @@ package crypto.project.Model.crypto.algorithm;
 
 import crypto.project.Model.crypto.component.DataBlock;
 import crypto.project.Model.crypto.component.KeyBlock;
+import crypto.project.Model.patterns.Tables;
 
 public class Des {
 
@@ -84,6 +85,8 @@ public class Des {
     public byte[] codeText(byte[] text, byte[] desKey) {
         keyBlock = new KeyBlock(desKey);
         dataBlock = new DataBlock(text);
+        leftSideOfText = dataBlock.getTextLeft();
+        rightSideOfText = dataBlock.getTextRight();
 
         return null;
     }

@@ -2,6 +2,7 @@ package crypto.project.Model.crypto.component;
 
 import crypto.project.Model.castTypes.Converter;
 import crypto.project.Model.functional.PermutationFunction;
+import crypto.project.Model.patterns.Tables;
 
 public class KeyBlock {
 
@@ -22,19 +23,6 @@ public class KeyBlock {
             14,  6, 61, 53, 45, 37, 29,
             21, 13,  5, 28, 20, 12,  4
     };
-    private final byte[] PC2Pattern = {
-            14, 17, 11, 24,  1,  5,  3,
-            28, 15,  6, 21, 10, 23, 19,
-            12,  4, 26,  8, 16,  7, 27,
-            20, 13,  2, 41, 52, 31, 37,
-            47, 55, 30, 40, 51, 45, 33,
-            48, 44, 49, 39, 56, 34, 53,
-            46, 42, 50, 36, 29, 32
-    };
-    private final byte[] shiftTablePattern = {
-            1, 1, 2, 2, 2, 2, 2, 2,
-            1, 2, 2, 2, 2, 2, 2, 1, 0
-    };
 
     public KeyBlock(byte[] desKey) {
         this.desKey = desKey;
@@ -43,13 +31,13 @@ public class KeyBlock {
     }
 
     public void encryptByRound(int round) {
-        left(shiftTablePattern[round]);
+        left(Tables.shiftBits[round]);
         connectBlocks();
         permPC2();
     }
 
     public void decryptByRound(int round) {
-        right(shiftTablePattern[round]);
+        right(Tables.shiftBits[round]);
         connectBlocks();
         permPC2();
     }
@@ -96,6 +84,6 @@ public class KeyBlock {
     }
 
     private void permPC2() {
-        PC2 = PermutationFunction.permute(PC2Pattern, connected,48);
+        PC2 = PermutationFunction.permute(Tables.PC2, connected,48);
     }
 }
