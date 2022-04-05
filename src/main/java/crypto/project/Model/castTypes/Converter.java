@@ -44,6 +44,47 @@ public class Converter {
         return binary;
     }
 
+    public static int binaryToInteget(byte[] tab) {
+        int sum = 0;
+        int temp = 1;
+
+        for (int i = tab.length - 1; i >= 0; i--) {
+            sum += tab[i] * temp;
+            temp *= 2;
+        }
+        return sum;
+    }
+
+
+    public static byte[] binaryChainToByteForm(byte[] chain) {
+        byte[] finalByte = new byte[8];
+        byte[] temp = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            System.arraycopy(chain,i*8,temp,0,8);
+            finalByte[i] = (byte) binaryToInteget(temp);
+
+        }
+        return finalByte;
+    }
+
+    public static byte[] byteToBinary(byte number) {
+        byte[] blockByte = new byte[4];
+        byte tmp;
+
+        for (int i = 0; i < 4; i++) {
+            blockByte[i] = (byte) (number%2);
+            number = (byte) (number/2);
+        }
+
+        for(int i = 0; i < 2; i++){
+            tmp = blockByte[i];
+            blockByte[i] = blockByte[3 - i];
+            blockByte[3 - i] = tmp;
+        }
+
+        return blockByte;
+    }
+
     public static byte[] completeTheBits(byte[] bytes) {
         int numberOfBytes = bytes.length;
         byte howMany = 0;

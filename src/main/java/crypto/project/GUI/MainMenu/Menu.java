@@ -99,6 +99,7 @@ public class Menu implements Initializable {
                 normalText.setText("Decoded file is in the buffer");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             try {
                 Error error = new Error();
                 error.show();

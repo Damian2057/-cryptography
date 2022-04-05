@@ -15,7 +15,7 @@ public class DesX implements Algorithm {
             byte[] temp = Converter.getCountOfBytes(text,i*8,8);
             temp = XorFunction.xorBytes(temp,firstXorKey);
             temp = des.codeText(temp,desKey);
-            temp = XorFunction.xorBytes(temp, secondXorKey);
+            temp = XorFunction.xorBytes(Converter.binaryChainToByteForm(temp), secondXorKey);
             System.arraycopy(temp, 0, finalForm, i*8, temp.length);
         }
 
@@ -29,8 +29,8 @@ public class DesX implements Algorithm {
         for (int i = 0; i < size; i++) {
             byte[] temp = Converter.getCountOfBytes(text, i * 8, 8);
             temp = XorFunction.xorBytes(temp, secondXorKey);
-            //temp = des.codeText(temp,desKey);
-            temp = XorFunction.xorBytes(temp, firstXorKey);
+            temp = des.decodeText(temp,desKey);
+            temp = XorFunction.xorBytes(Converter.binaryChainToByteForm(temp), firstXorKey);
             System.arraycopy(temp, 0, finalForm, i * 8, temp.length);
         }
 
