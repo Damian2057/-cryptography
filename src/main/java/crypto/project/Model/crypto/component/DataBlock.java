@@ -6,27 +6,37 @@ import crypto.project.Model.patterns.Tables;
 
 public class DataBlock {
 
-    private final byte[] text;
-    private byte[] textLeft = new byte[32];
-    private byte[] textRight = new byte[32];
-    private byte[] finalForm;
+    private char[] block;
+    private int[] blockInt;
+    private byte[] blockByte;
+    private byte[] blockInitialPermutation;
+    private byte[] blockLeft = new byte[32];
+    private byte[] blockRight = new byte[32];
 
-    public DataBlock(byte[] text) {
-        this.text = text;
-        finalForm = PermutationFunction.permute(Tables.IP, Converter.toBinaryTab(text),64);
-        divideTextBlockIntoTwoPages(finalForm);
+    public DataBlock(char[] block) {
+        this.block = block;
+//        blockInt = Converter.toIntegerTab(block);
+//        blockByte = Converter.toByteTab(blockInt);
+        blockInitialPermutation = PermutationFunction.permutation(Tables.IP, blockByte, 64);
+        divideBlock();
     }
 
-    private void divideTextBlockIntoTwoPages(byte[] source) {
-        System.arraycopy(source, 0, textLeft, 0, 32);
-        System.arraycopy(source, 32, textRight, 0, 32);
+    public DataBlock(byte[] block) {
+        blockByte = block;
+        blockInitialPermutation = PermutationFunction.permutation(Tables.IP, Converter.toBinaryTab(blockByte), 64);
+        divideBlock();
     }
 
-    public byte[] getTextLeft() {
-        return textLeft;
+    private void divideBlock() {
+        System.arraycopy(blockInitialPermutation, 0, blockLeft, 0, 32);
+        System.arraycopy(blockInitialPermutation, 32, blockRight, 0, 32);
     }
 
-    public byte[] getTextRight() {
-        return textRight;
+    public byte[] getBlockLeft() {
+        return blockLeft;
+    }
+
+    public byte[] getBlockRight() {
+        return blockRight;
     }
 }

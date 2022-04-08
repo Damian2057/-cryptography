@@ -12,79 +12,6 @@ public class Converter {
         return temp;
     }
 
-    public static String byteTabToString(byte[] tab) {
-        StringBuilder temp = new StringBuilder();
-        int len = tab.length;
-        for (int i = 0; i < len; i++) {
-            temp.append((char) tab[i]);
-        }
-        return temp.toString();
-    }
-
-    public static byte[] getCountOfBytes(byte[] text, int index, int count) {
-        byte[] temp = new byte[count];
-        for (int i = 0; i < count; i++) {
-            temp[i] = text[index];
-            index++;
-        }
-        return temp;
-    }
-
-    public static byte[] toBinaryTab(byte[] text) {
-        byte[] binary = new byte[text.length * 8];
-        int iter = 0;
-        int size = text.length;
-        for (int i = 0; i < size; i++) {
-            for (int j = 7 + iter; j >= iter ; j--) {
-                binary[j] = (byte) (text[i] % 2);
-                text[i] = (byte) (text[i] / 2);
-            }
-            iter += 8;
-        }
-        return binary;
-    }
-
-    public static int binaryToInteget(byte[] tab) {
-        int sum = 0;
-        int temp = 1;
-
-        for (int i = tab.length - 1; i >= 0; i--) {
-            sum += tab[i] * temp;
-            temp *= 2;
-        }
-        return sum;
-    }
-
-
-    public static byte[] binaryChainToByteForm(byte[] chain) {
-        byte[] finalByte = new byte[8];
-        byte[] temp = new byte[8];
-        for (int i = 0; i < 8; i++) {
-            System.arraycopy(chain,i*8,temp,0,8);
-            finalByte[i] = (byte) binaryToInteget(temp);
-
-        }
-        return finalByte;
-    }
-
-    public static byte[] byteToBinary(byte number) {
-        byte[] blockByte = new byte[4];
-        byte tmp;
-
-        for (int i = 0; i < 4; i++) {
-            blockByte[i] = (byte) (number%2);
-            number = (byte) (number/2);
-        }
-
-        for(int i = 0; i < 2; i++){
-            tmp = blockByte[i];
-            blockByte[i] = blockByte[3 - i];
-            blockByte[3 - i] = tmp;
-        }
-
-        return blockByte;
-    }
-
     public static byte[] completeTheBits(byte[] bytes) {
         int numberOfBytes = bytes.length;
         byte howMany = 0;
@@ -114,5 +41,59 @@ public class Converter {
         System.arraycopy(bytes, 0, filled,0,size);
 
         return filled;
+    }
+
+    public static byte[] toBinaryTab(byte[] text) {
+        byte[] binary = new byte[text.length * 8];
+        int iter = 0;
+        int size = text.length;
+        for (int i = 0; i < size; i++) {
+            for (int j = 7 + iter; j >= iter ; j--) {
+                binary[j] = (byte) (text[i] % 2);
+                text[i] = (byte) (text[i] / 2);
+            }
+            iter += 8;
+        }
+        return binary;
+    }
+
+    public static byte[] binaryChainToByteForm(byte[] chain) {
+        byte[] finalByte = new byte[8];
+        byte[] temp = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            System.arraycopy(chain,i*8,temp,0,8);
+            finalByte[i] = (byte) binaryToInteget(temp);
+
+        }
+        return finalByte;
+    }
+
+    public static String byteTabToString(byte[] tab) {
+        StringBuilder temp = new StringBuilder();
+        int len = tab.length;
+        for (int i = 0; i < len; i++) {
+            temp.append((char) tab[i]);
+        }
+        return temp.toString();
+    }
+
+    public static int binaryToInteget(byte[] tab) {
+        int sum = 0;
+        int temp = 1;
+
+        for (int i = tab.length - 1; i >= 0; i--) {
+            sum += tab[i] * temp;
+            temp *= 2;
+        }
+        return sum;
+    }
+
+    public static byte[] getCountOfBytes(byte[] text, int index, int count) {
+        byte[] temp = new byte[count];
+        for (int i = 0; i < count; i++) {
+            temp[i] = text[index];
+            index++;
+        }
+        return temp;
     }
 }

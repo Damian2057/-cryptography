@@ -1,12 +1,11 @@
 package crypto.project.Model.functional;
 
 public class PermutationFunction {
-    public static byte[] permute(byte[] template, byte[] blockOfText, int size) {
-        byte[] result = new byte[size];
-        for (int i = 0; i < size; i++) {
-            int x = template[i]-1;
-            result[i] = blockOfText[x];
+    public static byte[] permutation(byte[] pattern, byte[] block, int length) {
+        byte[] blockDestination = new byte[length];
+        for (int i = 0; i < length; i++) {
+            blockDestination[i] = block[pattern[i]-1];
         }
-        return result;
+        return blockDestination;
     }
 }
