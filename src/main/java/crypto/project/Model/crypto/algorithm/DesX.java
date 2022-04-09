@@ -17,8 +17,7 @@ public class DesX implements Algorithm {
 
         for(int i = 0; i < plainText.length/8; i++){
             byte[] tmp = XorFunction.xorByteTab(Converter.getCountOfBytes(plainText, i * 8, 8), keyInternal);
-           // tmp  = des.encrypt(tmp, keyDes);
-           // tmp = Converter.binaryChainToByteForm(tmp);
+            tmp  = des.encrypt(tmp, keyDes);
             tmp = XorFunction.xorByteTab(keyExternal,tmp);
             System.arraycopy(tmp, 0, finalText, i * 8, 8);
         }

@@ -52,6 +52,7 @@ public class Menu implements Initializable {
 
     public void onCode(ActionEvent actionEvent) {
         try {
+
             byte[] firstXorKey = Converter.stringToByteTab(keyText1.getText());
             byte[] desKey = Converter.stringToByteTab(keyText2.getText());
             byte[] secondXorKey = Converter.stringToByteTab(keyText3.getText());

@@ -5,11 +5,9 @@ import crypto.project.Model.functional.PermutationFunction;
 import crypto.project.Model.patterns.Tables;
 
 public class KeyBlock {
-    private int[] blockInt;
 
-    private byte[] blockByte;
-    private byte[] leftBlock;
-    private byte[] rightBlock;
+    private byte[] left;
+    private byte[] right;
     private byte[] connectedBlock = new byte[56];
     private byte[] permutedChoiceTwo = new byte[48];
 
@@ -27,10 +25,8 @@ public class KeyBlock {
     };
 
     public KeyBlock(byte[] block) {
-        //blockInt = Converter.toIntegerTab(block);
-        //blockByte = Converter.toByteTab(blockInt);
-        leftBlock = PermutationFunction.permutation(leftPattern, Converter.toBinaryTab(block), 28);
-        rightBlock = PermutationFunction.permutation(rightPattern, Converter.toBinaryTab(block), 28);
+        left = PermutationFunction.permutation(leftPattern, block, 28);
+        right = PermutationFunction.permutation(rightPattern, block, 28);
     }
 
     public void roundEncrypt(int round) {
@@ -50,15 +46,15 @@ public class KeyBlock {
         byte tmpR = 0;
 
         for (int j = 0; j < times; j++) {
-            tmpL = leftBlock[0];
-            tmpR = rightBlock[0];
+            tmpL = left[0];
+            tmpR = right[0];
 
             for (int i = 0; i < 27; i++) {
-                leftBlock[i] = leftBlock[i + 1];
-                rightBlock[i] = rightBlock[i + 1];
+                left[i] = left[i + 1];
+                right[i] = right[i + 1];
             }
-            leftBlock[27] = tmpL;
-            rightBlock[27] = tmpR;
+            left[27] = tmpL;
+            right[27] = tmpR;
         }
     }
 
@@ -67,20 +63,20 @@ public class KeyBlock {
         byte tmpR;
 
         for (int j = 0; j < times; j++) {
-            tmpL = leftBlock[27];
-            tmpR = rightBlock[27];
+            tmpL = left[27];
+            tmpR = right[27];
             for (int i = 27; i > 0; i--) {
-                leftBlock[i] = leftBlock[i - 1];
-                rightBlock[i] = rightBlock[i - 1];
+                left[i] = left[i - 1];
+                right[i] = right[i - 1];
             }
-            leftBlock[0] = tmpL;
-            rightBlock[0] = tmpR;
+            left[0] = tmpL;
+            right[0] = tmpR;
         }
     }
 
     private void connectBlock() {
-        System.arraycopy(leftBlock, 0, connectedBlock, 0, 28);
-        System.arraycopy(rightBlock, 0, connectedBlock, 28, 28);
+        System.arraycopy(left, 0, connectedBlock, 0, 28);
+        System.arraycopy(right, 0, connectedBlock, 28, 28);
     }
 
     private void permutationChoiceTwo() {
