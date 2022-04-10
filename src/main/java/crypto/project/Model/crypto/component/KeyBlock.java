@@ -1,6 +1,5 @@
 package crypto.project.Model.crypto.component;
 
-import crypto.project.Model.castTypes.Converter;
 import crypto.project.Model.functional.PermutationFunction;
 import crypto.project.Model.patterns.Tables;
 
@@ -9,7 +8,7 @@ public class KeyBlock {
     private byte[] left;
     private byte[] right;
     private byte[] connectedBlock = new byte[56];
-    private byte[] permutedChoiceTwo = new byte[48];
+    private byte[] key = new byte[48];
 
     private byte[] leftPattern = {
             57, 49, 41, 33, 25, 17,  9,
@@ -25,20 +24,21 @@ public class KeyBlock {
     };
 
     public KeyBlock(byte[] block) {
+        //first permutation PC1
         left = PermutationFunction.permutation(leftPattern, block, 28);
         right = PermutationFunction.permutation(rightPattern, block, 28);
     }
 
     public void roundEncrypt(int round) {
         leftShift(Tables.shiftBits[round]);
-        connectBlock();
-        permutationChoiceTwo();
+        create48bitKey();
+        secondPermutation();
     }
 
     public void roundDecrypt(int round) {
         rightShift(Tables.shiftBits[round]);
-        connectBlock();
-        permutationChoiceTwo();
+        create48bitKey();
+        secondPermutation();
     }
 
     private void leftShift(byte times) {
@@ -74,16 +74,16 @@ public class KeyBlock {
         }
     }
 
-    private void connectBlock() {
+    private void create48bitKey() {
         System.arraycopy(left, 0, connectedBlock, 0, 28);
         System.arraycopy(right, 0, connectedBlock, 28, 28);
     }
 
-    private void permutationChoiceTwo() {
-        permutedChoiceTwo = PermutationFunction.permutation(Tables.PC2, connectedBlock, 48);
+    private void secondPermutation() {
+        key = PermutationFunction.permutation(Tables.PC2, connectedBlock, 48);
     }
 
-    public byte[] getPermutedChoiceTwo() {
-        return permutedChoiceTwo;
+    public byte[] getKeys() {
+        return key;
     }
 }

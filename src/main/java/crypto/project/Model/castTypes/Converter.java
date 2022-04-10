@@ -49,7 +49,7 @@ public class Converter {
         int size = text.length;
         for (int i = 0; i < size; i++) {
             for (int j = 7 + iter; j >= iter ; j--) {
-                binary[j] = (byte) (text[i] % 2);
+                binary[j] = (byte) Math.abs( (text[i] % 2));
                 text[i] = (byte) (text[i] / 2);
             }
             iter += 8;

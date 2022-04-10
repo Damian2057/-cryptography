@@ -12,13 +12,17 @@ public class DesX implements Algorithm {
     }
 
     public byte[] encrypt(byte[] plainText, byte[] keyInternal, byte[] keyDes, byte[] keyExternal) {
-
         byte[] finalText = new byte[plainText.length];
+        byte[] binaryText = Converter.toBinaryTab(plainText);
+        byte[] binarykeyInternal = Converter.toBinaryTab(keyInternal);
+        byte[] binarykeyDes = Converter.toBinaryTab(keyDes);
+        byte[] binarykeyExternal = Converter.toBinaryTab(keyExternal);
 
         for(int i = 0; i < plainText.length/8; i++){
-            byte[] tmp = XorFunction.xorByteTab(Converter.getCountOfBytes(plainText, i * 8, 8), keyInternal);
-            tmp  = des.encrypt(tmp, keyDes);
-            tmp = XorFunction.xorByteTab(keyExternal,tmp);
+            byte[] tmp = XorFunction.xor(Converter.getCountOfBytes(binaryText, i * 64, 64), binarykeyInternal);
+          //  tmp  = des.encrypt(tmp, binarykeyDes);
+            tmp = XorFunction.xor(binarykeyExternal,tmp);
+            tmp = Converter.binaryChainToByteForm(tmp);
             System.arraycopy(tmp, 0, finalText, i * 8, 8);
         }
 
@@ -27,11 +31,15 @@ public class DesX implements Algorithm {
 
     public byte[] decrypt(byte[] plainText, byte[] keyInternal, byte[] keyDes, byte[] keyExternal) {
         byte[] finalText = new byte[plainText.length];
-
+        byte[] binaryText = Converter.toBinaryTab(plainText);
+        byte[] binarykeyInternal = Converter.toBinaryTab(keyInternal);
+        byte[] binarykeyDes = Converter.toBinaryTab(keyDes);
+        byte[] binarykeyExternal = Converter.toBinaryTab(keyExternal);
         for(int i = 0; i < plainText.length/8; i++){
-            byte[] tmp = XorFunction.xorByteTab(Converter.getCountOfBytes(plainText, i * 8, 8), keyExternal);
-           // tmp = des.decrypt(tmp, keyDes);
-            tmp = XorFunction.xorByteTab(keyInternal,tmp);
+            byte[] tmp = XorFunction.xor(Converter.getCountOfBytes(binaryText, i * 64, 64), binarykeyExternal);
+          //  tmp = des.decrypt(tmp, binarykeyDes);
+            tmp = XorFunction.xor(binarykeyInternal,tmp);
+            tmp = Converter.binaryChainToByteForm(tmp);
             System.arraycopy(tmp, 0, finalText, i * 8, 8);
         }
 
