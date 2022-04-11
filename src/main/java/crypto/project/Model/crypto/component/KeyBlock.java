@@ -5,85 +5,44 @@ import crypto.project.Model.patterns.Tables;
 
 public class KeyBlock {
 
-    private byte[] left;
-    private byte[] right;
-    private byte[] connectedBlock = new byte[56];
-    private byte[] key = new byte[48];
+    private byte[] key56;
+    private byte[] key48 = new byte[48];
+    private byte[] key64;
 
-    private byte[] leftPattern = {
-            57, 49, 41, 33, 25, 17,  9,
-            1, 58, 50, 42, 34, 26, 18,
-            10,  2, 59, 51, 43, 35, 27,
-            19, 11,  3, 60, 52, 44, 36
-    };
-    private byte[] rightPattern = {
-            63, 55, 47, 39, 31, 23, 15,
-            7, 62, 54, 46, 38, 30, 22,
-            14,  6, 61, 53, 45, 37, 29,
-            21, 13,  5, 28, 20, 12,  4
-    };
+    private byte[][] final16SubKeys = new byte[16][48];
+
 
     public KeyBlock(byte[] block) {
-        //first permutation PC1
-        left = PermutationFunction.permutation(leftPattern, block, 28);
-        right = PermutationFunction.permutation(rightPattern, block, 28);
+        this.key64 = block;
+        this.key56 = PermutationFunction.permutation(Tables.PC1,key64,56);
     }
 
-    public void roundEncrypt(int round) {
-        leftShift(Tables.shiftBits[round]);
-        create48bitKey();
-        secondPermutation();
+    public byte[][] getFinal16SubKeys() {
+        for (int i = 0; i < Tables.shiftBits.length; i++) {
+            leftShift(Tables.shiftBits[i], i);
+        }
+        return final16SubKeys;
     }
 
-    public void roundDecrypt(int round) {
-        rightShift(Tables.shiftBits[round]);
-        create48bitKey();
-        secondPermutation();
-    }
-
-    private void leftShift(byte times) {
-        byte tmpL = 0;
-        byte tmpR = 0;
-
-        for (int j = 0; j < times; j++) {
-            tmpL = left[0];
-            tmpR = right[0];
-
-            for (int i = 0; i < 27; i++) {
-                left[i] = left[i + 1];
-                right[i] = right[i + 1];
+    public void leftShift(byte count, int subKeyNumber) { // Pracowanie na kopii tablicy nie na niej samej?
+        byte tempLeft;
+        byte tempRight;
+        for (int i = 0; i < count; i++) {
+            tempLeft = this.key56[0];
+            tempRight = this.key56[28];
+            int iter = 27;
+            for (int j = 0; j < 27; j++) {
+                this.key56[j] = this.key56[j+1];
+                this.key56[iter] = this.key56[iter+1];
+                iter++;
             }
-            left[27] = tmpL;
-            right[27] = tmpR;
+            this.key56[27] = tempLeft;
+            this.key56[55] = tempRight;
+        }
+        key48 = PermutationFunction.permutation(Tables.PC2,this.key56,48);
+        for (int j = 0; j < 48; j++) {
+            final16SubKeys[subKeyNumber][j] = key48[j];
         }
     }
 
-    private void rightShift(byte times) {
-        byte tmpL;
-        byte tmpR;
-
-        for (int j = 0; j < times; j++) {
-            tmpL = left[27];
-            tmpR = right[27];
-            for (int i = 27; i > 0; i--) {
-                left[i] = left[i - 1];
-                right[i] = right[i - 1];
-            }
-            left[0] = tmpL;
-            right[0] = tmpR;
-        }
-    }
-
-    private void create48bitKey() {
-        System.arraycopy(left, 0, connectedBlock, 0, 28);
-        System.arraycopy(right, 0, connectedBlock, 28, 28);
-    }
-
-    private void secondPermutation() {
-        key = PermutationFunction.permutation(Tables.PC2, connectedBlock, 48);
-    }
-
-    public byte[] getKeys() {
-        return key;
-    }
 }

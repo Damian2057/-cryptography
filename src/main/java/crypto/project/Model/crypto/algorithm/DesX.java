@@ -20,7 +20,7 @@ public class DesX implements Algorithm {
 
         for(int i = 0; i < plainText.length/8; i++){
             byte[] tmp = XorFunction.xor(Converter.getCountOfBytes(binaryText, i * 64, 64), binarykeyInternal);
-          //  tmp  = des.encrypt(tmp, binarykeyDes);
+             tmp  = des.encrypt(tmp, binarykeyDes);
             tmp = XorFunction.xor(binarykeyExternal,tmp);
             tmp = Converter.binaryChainToByteForm(tmp);
             System.arraycopy(tmp, 0, finalText, i * 8, 8);
@@ -37,7 +37,7 @@ public class DesX implements Algorithm {
         byte[] binarykeyExternal = Converter.toBinaryTab(keyExternal);
         for(int i = 0; i < plainText.length/8; i++){
             byte[] tmp = XorFunction.xor(Converter.getCountOfBytes(binaryText, i * 64, 64), binarykeyExternal);
-          //  tmp = des.decrypt(tmp, binarykeyDes);
+            tmp = des.decrypt(tmp, binarykeyDes);
             tmp = XorFunction.xor(binarykeyInternal,tmp);
             tmp = Converter.binaryChainToByteForm(tmp);
             System.arraycopy(tmp, 0, finalText, i * 8, 8);
