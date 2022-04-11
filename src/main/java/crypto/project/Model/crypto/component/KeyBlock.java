@@ -30,7 +30,7 @@ public class KeyBlock {
         for (int i = 0; i < count; i++) {
             tempLeft = this.key56[0];
             tempRight = this.key56[28];
-            int iter = 27;
+            int iter = 28;
             for (int j = 0; j < 27; j++) {
                 this.key56[j] = this.key56[j+1];
                 this.key56[iter] = this.key56[iter+1];

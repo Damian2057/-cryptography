@@ -10,6 +10,10 @@ public class Des { ///ERROR IN DES
     public byte[] encrypt(byte[] binaryText, byte[] binaryKey) {
         keyBlock = new KeyBlock(binaryKey);
         byte[][] keys = keyBlock.getFinal16SubKeys();
+        dataBlock = new DataBlock(binaryText);
+
+
+
         return null;
     }
 
