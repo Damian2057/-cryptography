@@ -1,3 +1,11 @@
+//
+//------------------------------------------------------------
+//      DESX Cryptographic Algorithm Implementation Project
+//  Damian Biskupski
+//  Mateusz Dangreaux
+//                          2022
+//------------------------------------------------------------
+//
 package crypto.project.Model.crypto.algorithm;
 
 public interface Algorithm {

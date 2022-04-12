@@ -1,3 +1,11 @@
+//
+//------------------------------------------------------------
+//      DESX Cryptographic Algorithm Implementation Project
+//  Damian Biskupski
+//  Mateusz Dangreaux
+//                          2022
+//------------------------------------------------------------
+//
 package crypto.project.Model.castTypes;
 
 import java.util.Arrays;
@@ -18,6 +26,12 @@ public class Converter {
         return temp;
     }
 
+    /**
+     * Method that is completes the string to full eighth notes
+     * @param bytes Byte Array
+     * @return byte Table
+     */
+
     public static byte[] completeTheBits(byte[] bytes) {
         int numberOfBytes = bytes.length;
         byte howMany = 0;
@@ -34,6 +48,12 @@ public class Converter {
         return filled;
     }
 
+    /**
+     * Method that is Truncates the number of bytes specified at the end
+     * @param bytes Byte Array
+     * @return byte Table
+     */
+
     public static byte[] cutLastBytes(byte[] bytes) {
         int howMany = bytes[bytes.length-1];
         int size = bytes.length-howMany;
@@ -48,6 +68,12 @@ public class Converter {
         return filled;
     }
 
+    /**
+     * Method that is turns bytes into strings
+     * @param bytes Byte Array
+     * @return byte Table
+     */
+
     public static String byteTabToString(byte[] bytes) {
         StringBuilder temp = new StringBuilder();
         int len = bytes.length;
@@ -57,6 +83,12 @@ public class Converter {
         return temp.toString();
     }
 
+    /**
+     * Method that Returns the specified number of bytes
+     * @param bytes Byte Array, index, index of start, count how many
+     * @return byte Table
+     */
+
     public static byte[] getCountOfBytes(byte[] bytes, int index, int count) {
         byte[] temp = new byte[count];
         for (int i = 0; i < count; i++) {
@@ -65,6 +97,12 @@ public class Converter {
         }
         return temp;
     }
+
+    /**
+     * Method that converts a number into 4 bits
+     * @param number
+     * @return byte Table
+     */
 
     public static byte[] byteNumberTo4Bits(byte number) {
         //SBOX - 6 BitsSplit
@@ -85,6 +123,12 @@ public class Converter {
         return blockByte;
     }
 
+    /**
+     * Method that convert bits into bytes
+     * @param bits array of Bits
+     * @return byte Table
+     */
+
     public static byte[] binaryChainToByteForm(byte[] bits) {
         int iterator = 0;
         byte[] finalForm = new byte[8];
@@ -101,6 +145,12 @@ public class Converter {
         return finalForm;
     }
 
+    /**
+     * Method that converts byte arrays into bit arrays
+     * @param bytes array of Bytes
+     * @return bit Table
+     */
+
     public static byte[] byteTabToBinary(byte[] bytes) {
         int iterator = 0;
         byte[] finalForm = new byte[64];
@@ -114,9 +164,15 @@ public class Converter {
         return finalForm;
     }
 
-    public static byte[] byteTo8BitTable(byte chunk) {
+    /**
+     * Method that converts 1 byte into 8 bits
+     * @param value a number in the form of a byte
+     * @return 8-bit Table
+     */
+
+    public static byte[] byteTo8BitTable(byte value) {
         byte[] finalForm = new byte[8];
-        int number = chunk;
+        int number = value;
         if (number < 0) {
             number = number * (-1);
             for (int i = 7; i >= 0; i--) {
@@ -141,5 +197,4 @@ public class Converter {
         }
         return finalForm;
     }
-
 }

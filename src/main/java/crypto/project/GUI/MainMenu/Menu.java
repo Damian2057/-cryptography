@@ -1,3 +1,11 @@
+//
+//------------------------------------------------------------
+//      DESX Cryptographic Algorithm Implementation Project
+//  Damian Biskupski
+//  Mateusz Dangreaux
+//                          2022
+//------------------------------------------------------------
+//
 package crypto.project.GUI.MainMenu;
 
 import crypto.project.Model.castTypes.Converter;
@@ -53,21 +61,21 @@ public class Menu implements Initializable {
     public void onCode(ActionEvent actionEvent) {
         try {
 
-            byte[] firstXorKey = Converter.stringToByteTab(keyText1.getText());
+            byte[] keyInternal = Converter.stringToByteTab(keyText1.getText());
             byte[] desKey = Converter.stringToByteTab(keyText2.getText());
-            byte[] secondXorKey = Converter.stringToByteTab(keyText3.getText());
+            byte[] keyExternal = Converter.stringToByteTab(keyText3.getText());
 
             byte[] textAreaInByteForm = null;
 
             if(texticon.isSelected()) { //select the appropriate buffer for analysis
                 textAreaInByteForm = Converter.stringToByteTab(normalText.getText());
                 textAreaInByteForm = Converter.completeTheBits(textAreaInByteForm);
-                byte[] text = Base64.getEncoder().encode(desX.encrypt(textAreaInByteForm,firstXorKey,desKey,secondXorKey));
+                byte[] text = Base64.getEncoder().encode(desX.encrypt(textAreaInByteForm,keyInternal,desKey,keyExternal));
                 codedText.setText(new String(text));
             } else {
                 textAreaInByteForm = normalFileInByteForm;
                 textAreaInByteForm = Converter.completeTheBits(textAreaInByteForm);
-                codedFileInByteForm = desX.encrypt(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
+                codedFileInByteForm = desX.encrypt(textAreaInByteForm,keyInternal,desKey,keyExternal);
                 codedText.setText("The file was encoded, now it is in the buffer");
             }
         } catch (Exception e) {
@@ -82,20 +90,20 @@ public class Menu implements Initializable {
 
     public void onDeCode(ActionEvent actionEvent) throws IOException {
         try {
-            byte[] firstXorKey = Converter.stringToByteTab(keyText1.getText());
+            byte[] keyInternal = Converter.stringToByteTab(keyText1.getText());
             byte[] desKey = Converter.stringToByteTab(keyText2.getText());
-            byte[] secondXorKey = Converter.stringToByteTab(keyText3.getText());
+            byte[] keyExternal = Converter.stringToByteTab(keyText3.getText());
 
             byte[] textAreaInByteForm = null;
 
             if(texticon.isSelected()) { //select the appropriate buffer for analysis
                 byte[] temp = Base64.getDecoder().decode(codedText.getText());
-                byte[] text = desX.decrypt(temp,firstXorKey,desKey,secondXorKey);
+                byte[] text = desX.decrypt(temp,keyInternal,desKey,keyExternal);
                 text = Converter.cutLastBytes(text);
                 normalText.setText(Converter.byteTabToString(text));
             } else {
                 textAreaInByteForm = codedFileInByteForm;
-                normalFileInByteForm = desX.decrypt(textAreaInByteForm,firstXorKey,desKey,secondXorKey);
+                normalFileInByteForm = desX.decrypt(textAreaInByteForm,keyInternal,desKey,keyExternal);
                 normalFileInByteForm = Converter.cutLastBytes(normalFileInByteForm);
                 normalText.setText("Decoded file is in the buffer");
             }

@@ -1,3 +1,11 @@
+//
+//------------------------------------------------------------
+//      DESX Cryptographic Algorithm Implementation Project
+//  Damian Biskupski
+//  Mateusz Dangreaux
+//                          2022
+//------------------------------------------------------------
+//
 package crypto.project.GUI.MainMenu;
 
 import javafx.event.ActionEvent;

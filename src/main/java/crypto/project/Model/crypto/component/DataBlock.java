@@ -1,6 +1,13 @@
+//
+//------------------------------------------------------------
+//      DESX Cryptographic Algorithm Implementation Project
+//  Damian Biskupski
+//  Mateusz Dangreaux
+//                          2022
+//------------------------------------------------------------
+//
 package crypto.project.Model.crypto.component;
 
-import crypto.project.Model.castTypes.Converter;
 import crypto.project.Model.functional.PermutationFunction;
 import crypto.project.Model.patterns.Tables;
 
@@ -13,7 +20,9 @@ public class DataBlock {
 
     public DataBlock(byte[] binaryBlock) {
         block = binaryBlock;
+        //Initial Permutation
         initialPermutation = PermutationFunction.permutation(Tables.IP, block, 64);
+        //division into left and right sides of data
         sharePermutedBlock(initialPermutation);
     }
 

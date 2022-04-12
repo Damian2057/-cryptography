@@ -1,3 +1,11 @@
+//
+//------------------------------------------------------------
+//      DESX Cryptographic Algorithm Implementation Project
+//  Damian Biskupski
+//  Mateusz Dangreaux
+//                          2022
+//------------------------------------------------------------
+//
 package crypto.project.GUI;
 
 import crypto.project.GUI.MainMenu.Menu;
@@ -5,7 +13,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.util.Locale;
-
 
 public class App extends Application {
     @Override
