@@ -136,7 +136,7 @@ public class Converter {
         } else {
             for (int i = 7; i >= 0; i--) {
                 finalForm[i] = (byte) (number % 2 == 1 ? 1 : 0);
-                number /= 2;
+                number = number / 2;
             }
         }
         return finalForm;
