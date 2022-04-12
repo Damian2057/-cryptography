@@ -29,15 +29,15 @@ public class PermutationFunction {
 
     /**
      * Method that Convert transferred 48 bits into 32 bits
-     * @param binaryBlock Array of Bits
+     * @param binary48Block Array of Bits
      * @return 32 converted Bit Array
      */
 
-    public static byte[] calculate32BitsSBox(byte[] binaryBlock) {
+    public static byte[] sBoxTransformTo32Bits(byte[] binary48Block) {
         byte[] finalResult = new byte[32];
         for (int i = 0; i < 8; i++) {
             //Get the next 6 bits
-            byte[] split6bits = get6bits(binaryBlock,i);
+            byte[] split6bits = get6bits(binary48Block,i);
             //calculate row value
             int row = getRow(split6bits);
             //calculate Col value

@@ -44,7 +44,7 @@ public class Des {
             //Get the i-subkey
             byte[] key = keys[i];
             expandedRight = XorFunction.xor(expandedRight,key);
-            expandedRight = PermutationFunction.calculate32BitsSBox(expandedRight);
+            expandedRight = PermutationFunction.sBoxTransformTo32Bits(expandedRight);
             //Straight Permutation
             expandedRight = PermutationFunction.permutation(Tables.P, expandedRight,32);
             expandedRight = XorFunction.xor(left,expandedRight);
@@ -83,7 +83,7 @@ public class Des {
             expandedRight = PermutationFunction.permutation(Tables.EP,right,48);
             byte[] key = keys[i];
             expandedRight = XorFunction.xor(expandedRight,key);
-            expandedRight = PermutationFunction.calculate32BitsSBox(expandedRight);
+            expandedRight = PermutationFunction.sBoxTransformTo32Bits(expandedRight);
             expandedRight = PermutationFunction.permutation(Tables.P, expandedRight,32);
             expandedRight = XorFunction.xor(left,expandedRight);
             left = right;
