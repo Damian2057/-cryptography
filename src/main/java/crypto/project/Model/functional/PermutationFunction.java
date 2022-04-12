@@ -4,6 +4,7 @@ import crypto.project.Model.castTypes.Converter;
 import crypto.project.Model.patterns.Tables;
 
 public class PermutationFunction {
+
     public static byte[] permutation(byte[] pattern, byte[] block, int length) {
         byte[] blockDestination = new byte[length];
         for (int i = 0; i < length; i++) {
@@ -19,7 +20,7 @@ public class PermutationFunction {
             int row = getRow(split6bits);
             int col = getCol(split6bits);
             byte number = Tables.SBOX[i][row][col];
-            byte[] binaryForm = Converter.byteNumberToBinaryChain(number);
+            byte[] binaryForm = Converter.byteNumberTo4Bits(number);
             System.arraycopy(binaryForm,0,finalResult,i*4,4);
 
         }

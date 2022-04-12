@@ -4,10 +4,16 @@ import java.util.Arrays;
 
 public class Converter {
 
-    public static byte[] stringToByteTab(String text) {
-        byte[] temp = new byte[text.length()];
-        for (int i = 0; i < text.length(); i++) {
-            temp[i] = (byte) text.charAt(i);
+    /**
+     * Method that is replacing a string with a byte
+     * @param bytes normal ASCII Text
+     * @return byte Table
+     */
+
+    public static byte[] stringToByteTab(String bytes) {
+        byte[] temp = new byte[bytes.length()];
+        for (int i = 0; i < bytes.length(); i++) {
+            temp[i] = (byte) bytes.charAt(i);
         }
         return temp;
     }
@@ -42,39 +48,26 @@ public class Converter {
         return filled;
     }
 
-    public static byte[] toBinaryTab(byte[] text) {
-        byte[] binary = new byte[text.length * 8];
-        int iter = 0;
-        int size = text.length;
-        for (int i = 0; i < size; i++) {
-            for (int j = 7 + iter; j >= iter ; j--) {
-                binary[j] = (byte) Math.abs( (text[i] % 2));
-                text[i] = (byte) (text[i] / 2);
-            }
-            iter += 8;
-        }
-        return binary;
-    }
-
-    public static String byteTabToString(byte[] tab) {
+    public static String byteTabToString(byte[] bytes) {
         StringBuilder temp = new StringBuilder();
-        int len = tab.length;
+        int len = bytes.length;
         for (int i = 0; i < len; i++) {
-            temp.append((char) tab[i]);
+            temp.append((char) bytes[i]);
         }
         return temp.toString();
     }
 
-    public static byte[] getCountOfBytes(byte[] text, int index, int count) {
+    public static byte[] getCountOfBytes(byte[] bytes, int index, int count) {
         byte[] temp = new byte[count];
         for (int i = 0; i < count; i++) {
-            temp[i] = text[index];
+            temp[i] = bytes[index];
             index++;
         }
         return temp;
     }
 
-    public static byte[] byteNumberToBinaryChain(byte number) {
+    public static byte[] byteNumberTo4Bits(byte number) {
+        //SBOX - 6 BitsSplit
         byte[] blockByte = new byte[4];
         byte tmp;
 
@@ -106,5 +99,52 @@ public class Converter {
             }
         }
         return finalForm;
+    }
+
+    public static byte[] createBlock(byte[] bytes) {
+        int iterator = 0;
+        byte[] finalForm = new byte[64];
+
+        for (int i = 0; i < 8; i++) {
+            byte[] bits8 = getBitsFromByte(bytes[i], 8);
+            for (int j = 0; j < 8; j++) {
+                finalForm[iterator++] = bits8[j];
+            }
+        }
+        return finalForm;
+    }
+
+    public static byte[] getBitsFromByte(byte chunk, int bitLength) {
+
+        byte[] bits = new byte[bitLength];
+        int chunkValue = chunk;
+
+        if (chunkValue < 0) {
+            chunkValue *= -1;
+
+            for (int i = bitLength - 1; i >= 0; i--) {
+                bits[i] = (byte) (chunkValue % 2 == 1 ? 1 : 0);
+                chunkValue /= 2;
+            }
+
+            for (int i = 0; i < bitLength; i++) {
+                bits[i] ^= 1;
+            }
+            for (int i = bitLength - 1; i >= 0; i--) {
+                if (bits[i] == 0) {
+                    bits[i] = 1;
+                    break;
+                }
+                bits[i] = 0;
+            }
+        }
+        else {
+            for (int i = bitLength - 1; i >= 0; i--) {
+                bits[i] = (byte) (chunkValue % 2 == 1 ? 1 : 0);
+                chunkValue /= 2;
+            }
+        }
+
+        return bits;
     }
 }

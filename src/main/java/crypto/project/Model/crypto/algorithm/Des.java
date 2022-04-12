@@ -8,12 +8,13 @@ import crypto.project.Model.functional.XorFunction;
 import crypto.project.Model.patterns.Tables;
 
 public class Des {
+
     private DataBlock dataBlock;
     private KeyBlock keyBlock;
 
     public byte[] encrypt(byte[] byteText, byte[] byteKey) {
-        byte[] binaryText = Converter.toBinaryTab(byteText);
-        byte[] binaryKey = Converter.toBinaryTab(byteKey);
+        byte[] binaryText = Converter.createBlock(byteText);
+        byte[] binaryKey = Converter.createBlock(byteKey);
 
         keyBlock = new KeyBlock(binaryKey);
         byte[][] keys = keyBlock.getFinal16SubKeys();
@@ -48,17 +49,18 @@ public class Des {
         return toByte;
     }
 
-
     public byte[] decrypt(byte[] byteText, byte[] byteKey) {
-        byte[] binaryText = Converter.toBinaryTab(byteText); //HERE PROBLEM?
-        byte[] binaryKey = Converter.toBinaryTab(byteKey);
+
+        byte[] binaryText = Converter.createBlock(byteText);
+       // byte[] binaryText = Converter.toBinaryTab(byteText); //HERE PROBLEM?
+        byte[] binaryKey = Converter.createBlock(byteKey);
 
         keyBlock = new KeyBlock(binaryKey);
         byte[][] keys = keyBlock.getFinal16SubKeys();
         dataBlock = new DataBlock(binaryText);
 
         byte[] left = dataBlock.getLeft();
-        byte[] right = dataBlock.getRight(); //TO THIS MOMENT EVERYTHING IS OK
+        byte[] right = dataBlock.getRight();
 
         byte[] expandedRight = new byte[48];
 
