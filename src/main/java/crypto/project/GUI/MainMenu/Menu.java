@@ -60,7 +60,6 @@ public class Menu implements Initializable {
 
     public void onCode(ActionEvent actionEvent) {
         try {
-
             byte[] keyInternal = Converter.stringToByteTab(keyText1.getText());
             byte[] desKey = Converter.stringToByteTab(keyText2.getText());
             byte[] keyExternal = Converter.stringToByteTab(keyText3.getText());
@@ -79,7 +78,6 @@ public class Menu implements Initializable {
                 codedText.setText("The file was encoded, now it is in the buffer");
             }
         } catch (Exception e) {
-            e.printStackTrace();
             try {
                 Error error = new Error();
                 error.show();
@@ -108,7 +106,6 @@ public class Menu implements Initializable {
                 normalText.setText("Decoded file is in the buffer");
             }
         } catch (Exception e) {
-            e.printStackTrace();
             try {
                 Error error = new Error();
                 error.show();
@@ -131,10 +128,8 @@ public class Menu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         normalText.setWrapText(true);
         codedText.setWrapText(true);
-
         texticon.setSelected(true);
     }
 
@@ -218,7 +213,6 @@ public class Menu implements Initializable {
                 }
             } catch (Exception ignored) {
             }
-
         } else { //save coded bytes from var as a file
             try {
                 Stage saveFileStage = new Stage();
