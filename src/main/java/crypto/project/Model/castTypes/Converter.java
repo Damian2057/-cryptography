@@ -154,7 +154,6 @@ public class Converter {
     public static byte[] byteTabToBinary(byte[] bytes) {
         int iterator = 0;
         byte[] finalForm = new byte[64];
-
         for (int i = 0; i < 8; i++) {
             byte[] bits8 = byteTo8BitTable(bytes[i]);
             for (int j = 0; j < 8; j++) {
@@ -173,7 +172,12 @@ public class Converter {
     public static byte[] byteTo8BitTable(byte value) {
         byte[] finalForm = new byte[8];
         int number = value;
-        if (number < 0) {
+        if (number > 0) {
+            for (int i = 7; i >= 0; i--) {
+                finalForm[i] = (byte) (number % 2 == 1 ? 1 : 0);
+                number = number / 2;
+            }
+        } else {
             number = number * (-1);
             for (int i = 7; i >= 0; i--) {
                 finalForm[i] = (byte) (number % 2 == 1 ? 1 : 0);
@@ -188,11 +192,6 @@ public class Converter {
                     break;
                 }
                 finalForm[i] = 0;
-            }
-        } else {
-            for (int i = 7; i >= 0; i--) {
-                finalForm[i] = (byte) (number % 2 == 1 ? 1 : 0);
-                number = number / 2;
             }
         }
         return finalForm;
