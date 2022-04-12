@@ -101,12 +101,12 @@ public class Converter {
         return finalForm;
     }
 
-    public static byte[] createBlock(byte[] bytes) {
+    public static byte[] byteTabToBinary(byte[] bytes) {
         int iterator = 0;
         byte[] finalForm = new byte[64];
 
         for (int i = 0; i < 8; i++) {
-            byte[] bits8 = getBitsFromByte(bytes[i], 8);
+            byte[] bits8 = byteTo8BitTable(bytes[i]);
             for (int j = 0; j < 8; j++) {
                 finalForm[iterator++] = bits8[j];
             }
@@ -114,37 +114,32 @@ public class Converter {
         return finalForm;
     }
 
-    public static byte[] getBitsFromByte(byte chunk, int bitLength) {
-
-        byte[] bits = new byte[bitLength];
-        int chunkValue = chunk;
-
-        if (chunkValue < 0) {
-            chunkValue *= -1;
-
-            for (int i = bitLength - 1; i >= 0; i--) {
-                bits[i] = (byte) (chunkValue % 2 == 1 ? 1 : 0);
-                chunkValue /= 2;
+    public static byte[] byteTo8BitTable(byte chunk) {
+        byte[] finalForm = new byte[8];
+        int number = chunk;
+        if (number < 0) {
+            number = number * (-1);
+            for (int i = 7; i >= 0; i--) {
+                finalForm[i] = (byte) (number % 2 == 1 ? 1 : 0);
+                number = number / 2;
             }
-
-            for (int i = 0; i < bitLength; i++) {
-                bits[i] ^= 1;
+            for (int i = 0; i < 8; i++) {
+                finalForm[i] ^= 1;
             }
-            for (int i = bitLength - 1; i >= 0; i--) {
-                if (bits[i] == 0) {
-                    bits[i] = 1;
+            for (int i = 7; i >= 0; i--) {
+                if (finalForm[i] == 0) {
+                    finalForm[i] = 1;
                     break;
                 }
-                bits[i] = 0;
+                finalForm[i] = 0;
+            }
+        } else {
+            for (int i = 7; i >= 0; i--) {
+                finalForm[i] = (byte) (number % 2 == 1 ? 1 : 0);
+                number /= 2;
             }
         }
-        else {
-            for (int i = bitLength - 1; i >= 0; i--) {
-                bits[i] = (byte) (chunkValue % 2 == 1 ? 1 : 0);
-                chunkValue /= 2;
-            }
-        }
-
-        return bits;
+        return finalForm;
     }
+
 }

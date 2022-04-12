@@ -13,8 +13,8 @@ public class Des {
     private KeyBlock keyBlock;
 
     public byte[] encrypt(byte[] byteText, byte[] byteKey) {
-        byte[] binaryText = Converter.createBlock(byteText);
-        byte[] binaryKey = Converter.createBlock(byteKey);
+        byte[] binaryText = Converter.byteTabToBinary(byteText);
+        byte[] binaryKey = Converter.byteTabToBinary(byteKey);
 
         keyBlock = new KeyBlock(binaryKey);
         byte[][] keys = keyBlock.getFinal16SubKeys();
@@ -51,9 +51,9 @@ public class Des {
 
     public byte[] decrypt(byte[] byteText, byte[] byteKey) {
 
-        byte[] binaryText = Converter.createBlock(byteText);
+        byte[] binaryText = Converter.byteTabToBinary(byteText);
        // byte[] binaryText = Converter.toBinaryTab(byteText); //HERE PROBLEM?
-        byte[] binaryKey = Converter.createBlock(byteKey);
+        byte[] binaryKey = Converter.byteTabToBinary(byteKey);
 
         keyBlock = new KeyBlock(binaryKey);
         byte[][] keys = keyBlock.getFinal16SubKeys();
