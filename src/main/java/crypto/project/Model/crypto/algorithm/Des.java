@@ -34,22 +34,22 @@ public class Des {
         byte[] left = dataBlock.getLeft();
         byte[] right = dataBlock.getRight();
 
-        byte[] expandedRight = new byte[48];
+        byte[] expandedRightSite = new byte[48];
 
         byte[] finalForm = new byte[64];
 
         for (int i = 0; i < 16; i++) {
             //Expanding permutation
-            expandedRight = PermutationFunction.permutation(Tables.EP,right,48);
+            expandedRightSite = PermutationFunction.permutation(Tables.EP,right,48);
             //Get the i-subkey
             byte[] key = keys[i];
-            expandedRight = XorFunction.xor(expandedRight,key);
-            expandedRight = PermutationFunction.sBoxTransformTo32Bits(expandedRight);
+            expandedRightSite = XorFunction.xor(expandedRightSite,key);
+            expandedRightSite = PermutationFunction.sBoxTransformTo32Bits(expandedRightSite);
             //Straight Permutation
-            expandedRight = PermutationFunction.permutation(Tables.P, expandedRight,32);
-            expandedRight = XorFunction.xor(left,expandedRight);
+            expandedRightSite = PermutationFunction.permutation(Tables.P, expandedRightSite,32);
+            expandedRightSite = XorFunction.xor(left,expandedRightSite);
             left = right;
-            right = expandedRight;
+            right = expandedRightSite;
         }
 
         System.arraycopy(right, 0, finalForm, 0, 32);
@@ -75,19 +75,21 @@ public class Des {
         byte[] left = dataBlock.getLeft();
         byte[] right = dataBlock.getRight();
 
-        byte[] expandedRight = new byte[48];
+        byte[] expandedRightSite = new byte[48];
 
         byte[] finalForm = new byte[64];
 
         for (int i = 15; i >= 0; i--) {
-            expandedRight = PermutationFunction.permutation(Tables.EP,right,48);
+            expandedRightSite = PermutationFunction.permutation(Tables.EP,right,48);
             byte[] key = keys[i];
-            expandedRight = XorFunction.xor(expandedRight,key);
-            expandedRight = PermutationFunction.sBoxTransformTo32Bits(expandedRight);
-            expandedRight = PermutationFunction.permutation(Tables.P, expandedRight,32);
-            expandedRight = XorFunction.xor(left,expandedRight);
+
+            expandedRightSite = XorFunction.xor(expandedRightSite,key);
+            expandedRightSite = PermutationFunction.sBoxTransformTo32Bits(expandedRightSite);
+            expandedRightSite = PermutationFunction.permutation(Tables.P, expandedRightSite,32);
+            expandedRightSite = XorFunction.xor(left,expandedRightSite);
+
             left = right;
-            right = expandedRight;
+            right = expandedRightSite;
         }
 
         System.arraycopy(right, 0, finalForm, 0, 32);
